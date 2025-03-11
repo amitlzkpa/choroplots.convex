@@ -14,7 +14,6 @@ import { Flex, Loader, MantineProvider, createTheme, rem } from "@mantine/core";
 
 import Dev from "./views/Dev";
 import Landing from "./views/Landing";
-import Screenshots from "./views/Screenshots";
 import MyAccount from "./views/MyAccount";
 import Home from "./views/Home";
 import Project from "./views/Project";
@@ -94,7 +93,6 @@ function App() {
       element: <Outlet />,
       children: [
         { path: "", element: <Landing /> },
-        { path: "screenshots", element: <Screenshots /> },
         { path: "dev", element: <Dev /> },
         {
           path: "home",
