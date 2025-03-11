@@ -99,14 +99,14 @@ export const updateProject = internalMutation({
 
 // SRCDOC
 
-export const getAllSrcDocs_ForProject = query({
+export const getAllStoredFiles_ForProject = query({
   args: {
     projectId: v.optional(v.id("vsProjects")),
   },
   handler: async (ctx, { projectId }) => {
     if (!projectId) return [];
     const dbRecs = await ctx.db
-      .query("vsSrcDoc")
+      .query("vsStoredFile")
       .filter((q) => q.eq(q.field("projectId"), projectId))
       .order("desc")
       .collect();
@@ -127,31 +127,31 @@ export const getAllSrcDocs_ForProject = query({
             });
         })
     );
-    const projectSrcDocs = (await Promise.allSettled(ps))
+    const projectStoredFiles = (await Promise.allSettled(ps))
       .filter((p) => p.status === "fulfilled")
       .map((p) => p.value);
-    return projectSrcDocs;
+    return projectStoredFiles;
   },
 });
 
-export const getSrcDoc_BySrcDocId = query({
+export const getStoredFile_ByStoredFileId = query({
   args: {
-    srcDocId: v.optional(v.id("vsSrcDoc")),
+    storedFileId: v.optional(v.id("vsStoredFile")),
   },
-  handler: async (ctx, { srcDocId }) => {
-    if (!srcDocId) return null;
-    const srcDoc = await ctx.db.get(srcDocId);
-    return srcDoc;
+  handler: async (ctx, { storedFileId }) => {
+    if (!storedFileId) return null;
+    const storedFile = await ctx.db.get(storedFileId);
+    return storedFile;
   },
 });
 
-export const createNewSrcDoc = internalMutation({
+export const createNewStoredFile = internalMutation({
   args: {
     cvxStoredFileId: v.id("_storage"),
     projectId: v.id("vsProjects"),
   },
   handler: async (ctx, { cvxStoredFileId, projectId }) => {
-    const srcDocData = {
+    const storedFileData = {
       cvxStoredFileId,
       projectId,
       titleStatus: "not_generated",
@@ -159,19 +159,19 @@ export const createNewSrcDoc = internalMutation({
       summaryStatus: "not_generated",
       summaryText: "",
     };
-    const newSrcDocId = await ctx.db.insert("vsSrcDoc", srcDocData);
-    return newSrcDocId;
+    const newStoredFileId = await ctx.db.insert("vsStoredFile", storedFileData);
+    return newStoredFileId;
   },
 });
 
-export const updateSrcDoc = internalMutation({
+export const updateStoredFile = internalMutation({
   args: {
-    srcDocId: v.id("vsSrcDoc"),
+    storedFileId: v.id("vsStoredFile"),
     updateDataStr: v.string(),
   },
-  handler: async (ctx, { srcDocId, updateDataStr }) => {
+  handler: async (ctx, { storedFileId, updateDataStr }) => {
     const writeData = JSON.parse(updateDataStr);
-    const updatedSrcDocId = await ctx.db.patch(srcDocId, writeData);
-    return updatedSrcDocId;
+    const updatedStoredFileId = await ctx.db.patch(storedFileId, writeData);
+    return updatedStoredFileId;
   },
 });

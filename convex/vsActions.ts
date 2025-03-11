@@ -116,7 +116,7 @@ export const updateProject = action({
   },
 });
 
-// SRCDOCS
+// STOREDFILES
 
 const generateForPDF_offerings = async (pdfArrayBuffer) => {
   const result = await soModel_offerings.generateContent([
@@ -160,7 +160,7 @@ const generateForPDF_summary = async (pdfArrayBuffer) => {
   return summaryText;
 };
 
-export const createNewSrcDoc = action({
+export const createNewStoredFile = action({
   args: {
     cvxStoredFileId: v.string(),
     projectId: v.string(),
@@ -172,38 +172,38 @@ export const createNewSrcDoc = action({
       cvxStoredFileId: _cvxStoredFileId,
       projectId: _projectId,
     };
-    const newSrcDocId: any = await ctx.runMutation(
-      internal.dbOps.createNewSrcDoc,
+    const newStoredFileId: any = await ctx.runMutation(
+      internal.dbOps.createNewStoredFile,
       writeData
     );
-    ctx.runAction(api.vsActions.analyseSrcDoc, { srcDocId: newSrcDocId });
-    return newSrcDocId;
+    ctx.runAction(api.vsActions.analyseStoredFile, { storedFileId: newStoredFileId });
+    return newStoredFileId;
   },
 });
 
-export const updateSrcDoc = action({
+export const updateStoredFile = action({
   args: {
-    srcDocId: v.id("vsSrcDoc"),
+    storedFileId: v.id("vsStoredFile"),
     updateDataStr: v.string(),
   },
-  handler: async (ctx, { srcDocId, updateDataStr }) => {
-    const updatedSrcDoc: any = await ctx.runMutation(
-      internal.dbOps.updateSrcDoc,
-      { srcDocId, updateDataStr }
+  handler: async (ctx, { storedFileId, updateDataStr }) => {
+    const updatedStoredFile: any = await ctx.runMutation(
+      internal.dbOps.updateStoredFile,
+      { storedFileId, updateDataStr }
     );
-    return updatedSrcDoc;
+    return updatedStoredFile;
   },
 });
 
-export const analyseSrcDoc = action({
+export const analyseStoredFile = action({
   args: {
-    srcDocId: v.id("vsSrcDoc"),
+    storedFileId: v.id("vsStoredFile"),
   },
-  handler: async (ctx, { srcDocId }) => {
-    const srcDoc = await ctx.runQuery(internal.dbOps.getSrcDoc_BySrcDocId, {
-      srcDocId,
+  handler: async (ctx, { storedFileId }) => {
+    const storedFile = await ctx.runQuery(internal.dbOps.getStoredFile_ByStoredFileId, {
+      storedFileId,
     });
-    const fileUrl = await ctx.storage.getUrl(srcDoc.cvxStoredFileId);
+    const fileUrl = await ctx.storage.getUrl(storedFile.cvxStoredFileId);
 
     const pdfArrayBuffer = await fetch(fileUrl).then((response) =>
       response.arrayBuffer()
@@ -213,41 +213,41 @@ export const analyseSrcDoc = action({
 
     const writeData = { titleStatus: "generating" };
 
-    uploadedFileData = await ctx.runMutation(internal.dbOps.updateSrcDoc, {
-      srcDocId,
+    uploadedFileData = await ctx.runMutation(internal.dbOps.updateStoredFile, {
+      storedFileId,
       updateDataStr: JSON.stringify(writeData),
     });
     const titleText = await generateForPDF_title(pdfArrayBuffer);
     writeData.titleStatus = "generated";
     writeData.titleText = titleText;
-    uploadedFileData = await ctx.runMutation(internal.dbOps.updateSrcDoc, {
-      srcDocId,
+    uploadedFileData = await ctx.runMutation(internal.dbOps.updateStoredFile, {
+      storedFileId,
       updateDataStr: JSON.stringify(writeData),
     });
 
     writeData.summaryStatus = "generating";
-    uploadedFileData = await ctx.runMutation(internal.dbOps.updateSrcDoc, {
-      srcDocId,
+    uploadedFileData = await ctx.runMutation(internal.dbOps.updateStoredFile, {
+      storedFileId,
       updateDataStr: JSON.stringify(writeData),
     });
     const summaryText = await generateForPDF_summary(pdfArrayBuffer);
     writeData.summaryStatus = "generated";
     writeData.summaryText = summaryText;
-    uploadedFileData = await ctx.runMutation(internal.dbOps.updateSrcDoc, {
-      srcDocId,
+    uploadedFileData = await ctx.runMutation(internal.dbOps.updateStoredFile, {
+      storedFileId,
       updateDataStr: JSON.stringify(writeData),
     });
 
     writeData.offerings_Status = "generating";
-    uploadedFileData = await ctx.runMutation(internal.dbOps.updateSrcDoc, {
-      srcDocId,
+    uploadedFileData = await ctx.runMutation(internal.dbOps.updateStoredFile, {
+      storedFileId,
       updateDataStr: JSON.stringify(writeData),
     });
     const offerings_Text = await generateForPDF_offerings(pdfArrayBuffer);
     writeData.offerings_Status = "generated";
     writeData.offerings_Text = offerings_Text;
-    uploadedFileData = await ctx.runMutation(internal.dbOps.updateSrcDoc, {
-      srcDocId,
+    uploadedFileData = await ctx.runMutation(internal.dbOps.updateStoredFile, {
+      storedFileId,
       updateDataStr: JSON.stringify(writeData),
     });
   },

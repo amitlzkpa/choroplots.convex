@@ -12,20 +12,20 @@ export default function useCvxUtils() {
 
   const performAction_updateProject = useAction(api.vsActions.updateProject);
 
-  const performAction_createNewSrcDoc = useAction(
-    api.vsActions.createNewSrcDoc
+  const performAction_createNewStoredFile = useAction(
+    api.vsActions.createNewStoredFile
   );
 
-  const performAction_updateSrcDoc = useAction(api.vsActions.updateSrcDoc);
+  const performAction_updateStoredFile = useAction(api.vsActions.updateStoredFile);
 
-  const performAction_analyseSrcDoc = useAction(api.vsActions.analyseSrcDoc);
+  const performAction_analyseStoredFile = useAction(api.vsActions.analyseStoredFile);
 
   return {
     performAction_generateUploadUrl,
     performAction_createNewProject,
     performAction_updateProject,
-    performAction_createNewSrcDoc,
-    performAction_updateSrcDoc,
-    performAction_analyseSrcDoc,
+    performAction_createNewStoredFile,
+    performAction_updateStoredFile,
+    performAction_analyseStoredFile,
   };
 }

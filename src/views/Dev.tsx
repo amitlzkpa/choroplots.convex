@@ -35,12 +35,12 @@ export default function Dev() {
 
   // SRCDOC
 
-  const curProjectSrcDocs = useQuery(
-    api.dbOps.getAllSrcDocs_ForProject,
+  const curProjectStoredFiles = useQuery(
+    api.dbOps.getAllStoredFiles_ForProject,
     projectId ? { projectId: projectId as Id<"vsProjects"> } : "skip"
   );
 
-  const onClick_uploadFiles_SrcDoc = async (droppedFiles: any) => {
+  const onClick_uploadFiles_StoredFile = async (droppedFiles: any) => {
     const ps = droppedFiles.map(
       (file: any) =>
         new Promise((resolve, reject) => {
@@ -52,11 +52,11 @@ export default function Dev() {
               });
               const uploadedCvxFile = await result.json();
               const cvxStoredFileId = uploadedCvxFile.storageId;
-              const newSrcDocId = await cvxUtils.performAction_createNewSrcDoc({
+              const newStoredFileId = await cvxUtils.performAction_createNewStoredFile({
                 projectId: currProject?._id,
                 cvxStoredFileId,
               });
-              return resolve(newSrcDocId);
+              return resolve(newStoredFileId);
             } catch (err) {
               return reject(err);
             }
@@ -64,7 +64,7 @@ export default function Dev() {
         })
     );
 
-    const srcDocIds = (await Promise.allSettled(ps))
+    const storedFileIds = (await Promise.allSettled(ps))
       .filter((r) => r.status === "fulfilled")
       .map((r) => r.value);
   };
