@@ -24,10 +24,10 @@ export default function Navbar() {
         >
           <img
             src="/logo-512x512.png"
-            alt="Versee"
+            alt="Choroplots"
             style={{ height: "2rem", margin: 8 }}
           />
-          Versee
+          Choroplots
         </Button>
       </Flex>
 

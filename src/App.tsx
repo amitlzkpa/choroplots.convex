@@ -71,9 +71,9 @@ function App() {
       xl: "1.85",
     },
     defaultRadius: "xl",
-    primaryColor: "versee-purple",
+    primaryColor: "choroplot-main",
     colors: {
-      "versee-purple": [
+      "choroplot-main": [
         "#f3edff",
         "#e1d7fb",
         "#beabf0",
