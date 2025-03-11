@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Button, Card, Flex, Text, UnstyledButton } from "@mantine/core";
 
-import { useAction, useQuery } from "convex/react";
+import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 
 import useCvxUtils from "../hooks/cvxUtils";
@@ -53,7 +53,7 @@ export default function Home() {
                 key={prj._id}
               >
                 <Card w="100%" withBorder radius="xl">
-                  <Text>{prj.titleText}</Text>
+                  <Text>{prj._id}</Text>
                 </Card>
               </UnstyledButton>
             );
