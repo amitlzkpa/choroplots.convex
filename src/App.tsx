@@ -13,16 +13,11 @@ import { useConvexAuth } from "convex/react";
 import { Flex, Loader, MantineProvider, createTheme, rem } from "@mantine/core";
 
 import Dev from "./views/Dev";
-import OauthCallback_Docusign from "./views/OauthCallback_Docusign";
-import OauthCallback_GWspc from "./views/OauthCallback_GWspc";
-import CompletedSigningAnnotation_Docusign from "./views/CompletedSigningAnnotation_Docusign";
 import Landing from "./views/Landing";
 import Screenshots from "./views/Screenshots";
 import MyAccount from "./views/MyAccount";
 import Home from "./views/Home";
 import Project from "./views/Project";
-import Preview from "./views/Preview";
-import Apply from "./views/Apply";
 
 import Navbar from "./components/Navbar";
 import { useEffect, useState } from "react";
@@ -102,10 +97,6 @@ function App() {
         { path: "screenshots", element: <Screenshots /> },
         { path: "dev", element: <Dev /> },
         {
-          path: "completed-signing-annotation",
-          element: <CompletedSigningAnnotation_Docusign />,
-        },
-        {
           path: "home",
           element: (
             <ProtectedRoute>
@@ -126,34 +117,6 @@ function App() {
           element: (
             <ProtectedRoute>
               <Project />
-            </ProtectedRoute>
-          ),
-        },
-        {
-          path: "preview/:projectId?",
-          element: <Preview />,
-        },
-        {
-          path: "apply/:applicationId?",
-          element: (
-            <ProtectedRoute>
-              <Apply />
-            </ProtectedRoute>
-          ),
-        },
-        {
-          path: "callback/docusign",
-          element: (
-            <ProtectedRoute>
-              <OauthCallback_Docusign />
-            </ProtectedRoute>
-          ),
-        },
-        {
-          path: "callback/google-workspace",
-          element: (
-            <ProtectedRoute>
-              <OauthCallback_GWspc />
             </ProtectedRoute>
           ),
         },
