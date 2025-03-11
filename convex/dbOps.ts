@@ -97,7 +97,7 @@ export const updateProject = internalMutation({
   },
 });
 
-// SRCDOC
+// STOREDFILE
 
 export const getAllStoredFiles_ForProject = query({
   args: {

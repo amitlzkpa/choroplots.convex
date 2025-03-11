@@ -33,7 +33,7 @@ export default function Dev() {
     projectId ? { projectId: projectId as Id<"vsProjects"> } : "skip"
   );
 
-  // SRCDOC
+  // STOREDFILE
 
   const curProjectStoredFiles = useQuery(
     api.dbOps.getAllStoredFiles_ForProject,
