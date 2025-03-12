@@ -11,7 +11,7 @@ import {
 
 export default function FileUploader({
   projectId = null,
-  onClick_uploadFiles = (droppedFiles: any[]) => {},
+  onClick_uploadFiles = (droppedFiles: any[]) => { },
   allowMultiple = true,
 }: any) {
   const openRef = useRef<() => void>(null);

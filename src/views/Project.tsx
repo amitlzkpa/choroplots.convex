@@ -81,7 +81,7 @@ export default function Project() {
       </Flex>
 
       <Divider />
-      
+
       <Flex w="100%" direction="column" gap="sm">
         <Flex w="100%" gap="md">
           <Text>
@@ -110,22 +110,22 @@ export default function Project() {
           })}
         </Flex>
       </Flex>
-        
+
       <Flex
-          w="100%"
-          h="100%"
-          direction="column"
-          justify="center"
-          align="center"
-          gap="sm"
-          style={{ textAlign: "center" }}
-        >
-          <FileUploader
-            projectId={projectId}
-            onClick_uploadFiles={onClick_uploadFiles_StoredFile}
-            allowMultiple={false}
-          />
-        </Flex>
+        w="100%"
+        h="100%"
+        direction="column"
+        justify="center"
+        align="center"
+        gap="sm"
+        style={{ textAlign: "center" }}
+      >
+        <FileUploader
+          projectId={projectId}
+          onClick_uploadFiles={onClick_uploadFiles_StoredFile}
+          allowMultiple={false}
+        />
+      </Flex>
     </Flex>
   );
 }

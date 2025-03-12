@@ -16,7 +16,7 @@ import { FaCheckCircle, FaRedo } from "react-icons/fa";
 
 export default function MyAccount() {
   const storedUserData = useQuery(api.dbOps.getUserData_ForCurrUser);
-  
+
   // const cvxUtils = useCvxUtils();
   // const onClick_startGWspcOAuth = async () => {
   //   const redirectUri = await cvxUtils.performAction_startGWspcOAuth();
