@@ -6,6 +6,7 @@ import {
   Flex,
   Loader,
   Text,
+  Textarea,
 } from "@mantine/core";
 
 import useCvxUtils from "../hooks/cvxUtils";
@@ -37,6 +38,9 @@ export default function Dev() {
       </Unauthenticated>
       <Authenticated>
         <Flex w="60%" direction="column" align="stretch" gap="md" p="lg">
+
+          <Textarea />
+
           <Button
             w="100%"
             onClick={() => console.log("Test button clicked")}
