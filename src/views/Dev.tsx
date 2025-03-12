@@ -48,7 +48,11 @@ export function downloadBase64Response(response: Response, filename: string) {
 export default function Dev() {
   const cvxUtils = useCvxUtils();
 
-  // PROJECT
+  const [text, setText] = useState("");
+
+  const handleTestButtonClick = async () => {
+    downloadBase64Response(text, "data.jpg");
+  };
 
   return (
     <Flex w="100%" direction="column" align="center" gap="sm">
@@ -62,12 +66,15 @@ export default function Dev() {
       </Unauthenticated>
       <Authenticated>
         <Flex w="60%" direction="column" align="stretch" gap="md" p="lg">
-
-          <Textarea />
+          <Textarea
+            value={text}
+            onChange={(event) => setText(event.currentTarget.value)}
+            placeholder="Type something..."
+          />
 
           <Button
             w="100%"
-            onClick={() => console.log("Test button clicked")}
+            onClick={handleTestButtonClick}
             size="lg"
           >
             Test
