@@ -1,5 +1,8 @@
-import { useState } from "react";
+import { useParams } from "react-router-dom";
 import {
+  Button,
+  Card,
+  Divider,
   Flex,
   Text,
 } from "@mantine/core";
@@ -17,7 +20,7 @@ export default function Project() {
 
   // PROJECT
 
-  const [projectId, setProjectId] = useState("");
+  const { projectId = "" } = useParams();
 
   const currProject = useQuery(
     api.dbOps.getProject_ByProjectId,
@@ -60,7 +63,7 @@ export default function Project() {
       .map((r) => r.value);
 
     const updateData = JSON.stringify({
-      initializationStatus: "agreements_uploaded",
+      initializationStatus: "files_uploaded",
     });
 
     await cvxUtils.performAction_updateProject({ projectId: projectId as Id<"vsProjects">, updateData });
@@ -68,16 +71,46 @@ export default function Project() {
 
   return (
     <Flex w="100%" direction="column" gap="sm" p="lg">
-      <Flex w="100%" gap="md">
+      <Flex w="100%" align="center" gap="md">
         <Text size="xl" fw="bold">
           Project
         </Text>
-      </Flex>
-      <Flex w="100%" gap="md">
         <Text>
           {currProject?._id}
         </Text>
       </Flex>
+
+      <Divider />
+      
+      <Flex w="100%" direction="column" gap="sm">
+        <Flex w="100%" gap="md">
+          <Text>
+            Uploaded Files {curProjectStoredFiles ? `(${curProjectStoredFiles.length})` : ""}
+          </Text>
+        </Flex>
+        <Flex w="100%" direction="column" align="center" gap="xs">
+          {(curProjectStoredFiles ?? []).map((storedFile: any) => {
+            return (
+              <Card key={storedFile._id} w="100%" withBorder radius="xl">
+                <Flex direction="column" align="stretch" gap="sm">
+                  <Text fz="sm">{storedFile._id}</Text>
+                  <Button
+                    component="a"
+                    variant="outline"
+                    href={storedFile.fileUrl}
+                    target="_blank"
+                    w="100%"
+                    size="lg"
+                  >
+                    Open
+                  </Button>
+                </Flex>
+              </Card>
+            );
+          })}
+        </Flex>
+      </Flex>
+        
       <Flex
           w="100%"
           h="100%"
