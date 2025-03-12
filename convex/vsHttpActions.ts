@@ -11,3 +11,12 @@ export const foo = httpAction(async (ctx, request) => {
   });
 });
 
+export const mapCreate = httpAction(async (ctx, request) => {
+
+  console.log("foo");
+
+  return new Response("Yessire!", {
+    status: 200,
+  });
+});
+
