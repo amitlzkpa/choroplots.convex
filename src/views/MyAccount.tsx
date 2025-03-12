@@ -26,7 +26,7 @@ export default function MyAccount() {
   return (
     <Flex w="100%" direction="column" align="center" gap="sm">
 
-      <Text size="xl">
+      <Text size="xl" fw="bold">
         My Account
       </Text>
 

@@ -1,16 +1,7 @@
-import { useRef, useState, useEffect, useMemo } from "react";
-import { useParams } from "react-router-dom";
+import { useState } from "react";
 import {
-  Accordion,
-  Button,
-  Card,
-  Center,
-  Divider,
   Flex,
-  Tabs,
   Text,
-  Stepper,
-  rem,
 } from "@mantine/core";
 
 import { useAction, useQuery } from "convex/react";
@@ -26,10 +17,17 @@ export default function Project() {
 
   // PROJECT
 
-  const { projectId = "" } = useParams();
+  const [projectId, setProjectId] = useState("");
 
   const currProject = useQuery(
     api.dbOps.getProject_ByProjectId,
+    projectId ? { projectId: projectId as Id<"vsProjects"> } : "skip"
+  );
+
+  // STOREDFILE
+
+  const curProjectStoredFiles = useQuery(
+    api.dbOps.getAllStoredFiles_ForProject,
     projectId ? { projectId: projectId as Id<"vsProjects"> } : "skip"
   );
 
@@ -69,13 +67,13 @@ export default function Project() {
   };
 
   return (
-    <Flex w="100%" direction="column" align="center" gap="sm" p="lg">
-      <Flex w="100%" mb="xl" gap="md" pb="xl">
-        <Text size="xl">
+    <Flex w="100%" direction="column" gap="sm" p="lg">
+      <Flex w="100%" gap="md">
+        <Text size="xl" fw="bold">
           Project
         </Text>
       </Flex>
-      <Flex w="100%" mb="xl" gap="md" pb="xl">
+      <Flex w="100%" gap="md">
         <Text>
           {currProject?._id}
         </Text>
