@@ -57,6 +57,20 @@ export default function Dev() {
             placeholder="Type something..."
           />
 
+          {text && (
+            <Card withBorder p="md">
+              <img 
+                src={text.startsWith('data:') ? text : `data:image/jpeg;base64,${text}`}
+                alt="Base64 Preview"
+                style={{ maxWidth: '100%', height: 'auto' }}
+                onError={(e) => {
+                  // Hide the image if the base64 is invalid
+                  (e.target as HTMLImageElement).style.display = 'none';
+                }}
+              />
+            </Card>
+          )}
+
           <Button
             w="100%"
             onClick={handleTestButtonClick}
