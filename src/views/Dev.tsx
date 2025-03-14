@@ -27,7 +27,7 @@ export default function Dev() {
 
   const [text, setText] = useState("");
 
-  const handleTestButtonClick = async () => {
+  const handleDownloadBtnClick = async () => {
     const filename = "test.jpg";
     const blob = base64StringToBlob(text, filename);
 
@@ -37,6 +37,12 @@ export default function Dev() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+  
+  const [srcVal, setSrcVal] = useState("");
+
+  const handleViewBtnClick = () => {
+    setSrcVal(text.startsWith('data:') ? text : `data:image/jpeg;base64,${text}`);
   };
 
   return (
@@ -57,26 +63,52 @@ export default function Dev() {
             placeholder="Type something..."
           />
 
-          {text && (
-            <Card withBorder p="md">
-              <img 
-                src={text.startsWith('data:') ? text : `data:image/jpeg;base64,${text}`}
-                alt="Base64 Preview"
-                style={{ maxWidth: '100%', height: 'auto' }}
-                onError={(e) => {
-                  // Hide the image if the base64 is invalid
-                  (e.target as HTMLImageElement).style.display = 'none';
-                }}
-              />
-            </Card>
-          )}
+          {
+            srcVal
+            ?
+            (
+              <Card withBorder p="md">
+                <img 
+                  src={srcVal}
+                  alt="Base64 Preview"
+                  style={{ maxWidth: '100%', height: 'auto' }}
+                  onError={(e) => {
+                    // Hide the image if the base64 is invalid
+                    (e.target as HTMLImageElement).style.display = 'none';
+                  }}
+                />
+              </Card>
+            )
+            :
+            (
+              <Text w="100%" ta="center">No image to display</Text>
+            )
+          }
 
           <Button
             w="100%"
-            onClick={handleTestButtonClick}
+            onClick={handleViewBtnClick}
             size="lg"
           >
-            Test
+            View
+          </Button>
+
+          <Button
+            w="100%"
+            onClick={handleDownloadBtnClick}
+            size="lg"
+          >
+            Download
+          </Button>
+
+          <Button
+            variant="outline"
+            w="100%"
+            mt="md"
+            onClick={() => { setSrcVal(""); }}
+            size="lg"
+          >
+            Clear
           </Button>
         </Flex>
       </Authenticated>
