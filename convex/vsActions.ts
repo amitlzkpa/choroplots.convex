@@ -252,3 +252,17 @@ export const analyseStoredFile = action({
     });
   },
 });
+
+// MAPS
+
+export const mapCreate = action({
+  args: {
+    text: v.string(),
+  },
+  handler: async (ctx, { text }) => {
+    const map = await ctx.runMutation(internal.dbOps.createNewMap, {
+      text,
+    });
+    return map;
+  },
+});

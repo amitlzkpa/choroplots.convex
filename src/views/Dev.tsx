@@ -45,6 +45,10 @@ export default function Dev() {
     setSrcVal(text.startsWith('data:') ? text : `data:image/jpeg;base64,${text}`);
   };
 
+  const handleCreateBtnClick = () => {
+    cvxUtils.performAction_mapCreate({ text });
+  };
+
   return (
     <Flex w="100%" direction="column" align="center" gap="sm">
       <AuthLoading>
@@ -109,6 +113,14 @@ export default function Dev() {
             size="lg"
           >
             Clear
+          </Button>
+
+          <Button
+            w="100%"
+            onClick={handleCreateBtnClick}
+            size="lg"
+          >
+            Create
           </Button>
         </Flex>
       </Authenticated>
