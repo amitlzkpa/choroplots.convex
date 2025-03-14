@@ -73,16 +73,16 @@ function App() {
     primaryColor: "choroplot-main",
     colors: {
       "choroplot-main": [
-        "#f3edff",
-        "#e1d7fb",
-        "#beabf0",
-        "#9a7de7",
-        "#7c56de",
-        "#693dd9",
-        "#5f30d8",
-        "#4f23c0",
-        "#461eac",
-        "#3b1898",
+        "#e3f7ff",
+        "#ceeaff",
+        "#a0d1fb",
+        "#6db8f6",
+        "#45a2f2",
+        "#2a94f0",
+        "#188df1",
+        "#027ad7",
+        "#006cc1",
+        "#005eac"
       ],
     },
   });
