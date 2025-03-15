@@ -49,6 +49,21 @@ export default function Dev() {
     cvxUtils.performAction_mapCreate({ text });
   };
 
+  const handleCreateHttpsBtnClick = () => {
+    let url = window.location.origin + "/api/maps/create";
+    // url = "https://choroplots-convex.vercel.app/api/maps/create";
+
+    console.log(url);
+
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ text })
+    });
+  };
+
   return (
     <Flex w="100%" direction="column" align="center" gap="sm">
       <AuthLoading>
@@ -122,6 +137,14 @@ export default function Dev() {
             size="lg"
           >
             Create
+          </Button>
+          
+          <Button
+            w="100%"
+            onClick={handleCreateHttpsBtnClick}
+            size="lg"
+          >
+            Create HTTPS
           </Button>
         </Flex>
       </Authenticated>
