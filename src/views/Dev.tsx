@@ -45,8 +45,9 @@ export default function Dev() {
     setSrcVal(text.startsWith('data:') ? text : `data:image/jpeg;base64,${text}`);
   };
 
-  const handleCreateBtnClick = () => {
-    cvxUtils.performAction_mapCreate({ text });
+  const handleCreateBtnClick = async () => {
+    const mapId = await cvxUtils.performAction_mapCreate({ text });
+    console.log(mapId);
   };
 
   const handleCreateHttpsBtnClick = () => {
