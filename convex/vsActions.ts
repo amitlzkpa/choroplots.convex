@@ -118,7 +118,7 @@ const extractData_keyMapData = async (arrayBuffer) => {
     {
       inlineData: {
         data: Buffer.from(arrayBuffer).toString("base64"),
-        mimeType: "image/png",
+        mimeType: "image/jpeg",
       },
     },
     "Extract the key regions and actors in the map.",
@@ -142,7 +142,7 @@ export const createNewStoredFile = action({
       internal.dbOps.createNewStoredFile,
       writeData
     );
-    // ctx.runAction(api.vsActions.analyseStoredFile, { storedFileId: newStoredFileId });
+    ctx.runAction(api.vsActions.analyseStoredFile, { storedFileId: newStoredFileId });
     return newStoredFileId;
   },
 });
@@ -197,12 +197,11 @@ export const analyseStoredFile = action({
 // DEBUG
 
 export const debugAction = action({
-  args: {
-  },
-  handler: async (ctx, { text }) => {
+  args: {},
+  handler: async (ctx) => {
 
     await ctx.runAction(api.vsActions.analyseStoredFile,
-      { storedFileId: "j97d40kpcjxh77bkqrce58jdw97c41a0" }
+      { storedFileId: "j9782ed5bspne47c4st7sw520h7c46ag" }
     );
 
     console.log("analysis done");
