@@ -20,7 +20,10 @@ import {
 } from "convex/react";
 import { Id } from "../../convex/_generated/dataModel";
 import { api } from "../../convex/_generated/api";
+
 import { base64StringToBlob } from "../utils";
+
+import FileUploader from "../components/FileUploader";
 
 export default function Dev() {
   const cvxUtils = useCvxUtils();
@@ -65,6 +68,39 @@ export default function Dev() {
     });
   };
 
+
+
+  const onClick_uploadFiles_StoredFile = async (droppedFiles: any) => {
+    const ps = droppedFiles.map(
+      (file: any) =>
+        new Promise((resolve, reject) => {
+          cvxUtils.performAction_generateUploadUrl().then(async (uploadUrl) => {
+            try {
+              const result = await fetch(uploadUrl, {
+                method: "POST",
+                body: file,
+              });
+              const uploadedCvxFile = await result.json();
+              const cvxStoredFileId = uploadedCvxFile.storageId;
+              const newStoredFileId = await cvxUtils.performAction_createNewStoredFile({
+                projectId: "j57bja5nce81qbf9jeyv7pej097bxnfb",
+                cvxStoredFileId,
+              });
+              return resolve(newStoredFileId);
+            } catch (err) {
+              return reject(err);
+            }
+          });
+        })
+    );
+
+    const storedFileIds = (await Promise.allSettled(ps))
+      .filter((r) => r.status === "fulfilled")
+      .map((r) => r.value);
+    
+    console.log(storedFileIds);
+  };
+
   const handleDebugBtnClick = async () => {
     console.log("debug ------------------------ START");
     const res = await cvxUtils.performAction_debugAction({ text: "mipoo" });
@@ -84,6 +120,34 @@ export default function Dev() {
       </Unauthenticated>
       <Authenticated>
         <Flex w="60%" direction="column" align="stretch" gap="md" p="lg">
+
+          <Button
+            variant="light"
+            w="100%"
+            onClick={handleDebugBtnClick}
+            size="lg"
+          >
+            Debug
+          </Button>
+
+          <Divider w="100%" />
+
+          <Flex
+            w="100%"
+            h="20rem"
+            direction="column"
+            align="stretch"
+            gap="sm"
+          >
+            <FileUploader
+              projectId={"j57bja5nce81qbf9jeyv7pej097bxnfb"}
+              onClick_uploadFiles={onClick_uploadFiles_StoredFile}
+              allowMultiple={false}
+            />
+          </Flex>
+
+          <Divider w="100%" />
+
           <Textarea
             rows={7}
             value={text}
@@ -142,15 +206,6 @@ export default function Dev() {
           </Button>
 
           <Divider w="100%" />
-
-          <Button
-            variant="light"
-            w="100%"
-            onClick={handleDebugBtnClick}
-            size="lg"
-          >
-            Debug
-          </Button>
 
           <Button
             w="100%"
