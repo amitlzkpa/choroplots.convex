@@ -9,7 +9,7 @@ export default function Landing() {
           Choroplots
         </Text>
         <Text>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor libero eu nisl pellentesque, in laoreet tortor aliquam. Donec pulvinar diam nisl, et maximus nulla vulputate vel. Pellentesque et magna scelerisque, gravida mauris quis, viverra augue. Donec felis eros, laoreet non fringilla quis, pulvinar nec turpis. Sed non dui efficitur, tempor augue at, consectetur leo. Cras id metus dolor. Aenean eros enim, consectetur auctor pretium eget, tristique luctus lacus. Nam sagittis tincidunt tellus, et mollis purus. Etiam sit amet justo finibus velit tempus faucibus. Sed a viverra nisl. Cras eleifend sem vel rhoncus commodo. Proin mollis condimentum bibendum. Cras eget rutrum nulla.
+          Choroplots are a way to visualize data on a map. The idea is to help communities visualize incidents, events, or other data in a simple and accessible way.
         </Text>
       </Flex>
 
