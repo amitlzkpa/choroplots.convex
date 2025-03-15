@@ -152,11 +152,7 @@ export const createNewStoredFile = internalMutation({
   handler: async (ctx, { cvxStoredFileId, projectId }) => {
     const storedFileData = {
       cvxStoredFileId,
-      projectId,
-      titleStatus: "not_generated",
-      titleText: "",
-      summaryStatus: "not_generated",
-      summaryText: "",
+      projectId
     };
     const newStoredFileId = await ctx.db.insert("vsStoredFile", storedFileData);
     return newStoredFileId;
