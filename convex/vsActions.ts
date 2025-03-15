@@ -23,29 +23,23 @@ const wait = async function (ms) {
 // SCHEMAS
 
 const key_map_data = {
-  description: "List of key regions and actors in the map.",
+  description: "List of key regions in the map.",
   type: SchemaType.ARRAY,
   items: {
     type: SchemaType.OBJECT,
     properties: {
       title: {
         type: SchemaType.STRING,
-        description: "A suitable title to be shown for the region or actor.",
+        description: "A suitable title to be shown for the region.",
         nullable: false,
       },
       description: {
         type: SchemaType.STRING,
-        description: "2 sentence description of the region or actor.",
+        description: "2 sentence description of the region.",
         nullable: false,
-      },
-      type: {
-        type: SchemaType.STRING,
-        description: "Type of the region or actor.",
-        nullable: false,
-        enum: ["region", "actor"],
       }
     },
-    required: ["title", "description", "type"],
+    required: ["title", "description"],
   },
 };
 
@@ -121,7 +115,7 @@ const extractData_keyMapData = async (fileArrayBuffer, fileMimeType) => {
         mimeType: fileMimeType,
       },
     },
-    "Extract the key regions and actors in the map.",
+    "Extract the key regions from the map. Only use the map to determine the regions. Do not make up any regions or any information source other than the map.",
   ]);
   return result.response.text();
 };
@@ -205,7 +199,7 @@ export const debugAction = action({
   handler: async (ctx) => {
 
     await ctx.runAction(api.vsActions.analyseStoredFile,
-      { storedFileId: "j97crfzg9dvc48ke4fmsxkhw0x7c5ebp" }
+      { storedFileId: "j9782ed5bspne47c4st7sw520h7c46ag" }
     );
 
     console.log("analysis done");
