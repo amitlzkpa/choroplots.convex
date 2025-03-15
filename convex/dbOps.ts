@@ -175,3 +175,30 @@ export const updateStoredFile = internalMutation({
     return updatedStoredFileId;
   },
 });
+
+// MAPS
+
+export const getMap_ByMapId = query({
+  args: {
+    mapId: v.optional(v.id("vsMaps")),
+  },
+  handler: async (ctx, { mapId }) => {
+    if (!mapId) return null;
+    const map = await ctx.db.get(mapId);
+    return map;
+  },
+});
+
+export const createNewMap = internalMutation({
+  args: {
+    text: v.string(),
+  },
+  handler: async (ctx, { text }) => {
+    const mapData = {
+      text,
+      status: "not_generated",
+    };
+    const newMapId = await ctx.db.insert("vsMaps", mapData);
+    return newMapId;
+  },
+});
