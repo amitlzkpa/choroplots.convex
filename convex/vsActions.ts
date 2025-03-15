@@ -22,7 +22,17 @@ const wait = async function (ms) {
 
 // SCHEMAS
 
-const key_map_data = {
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+// GENERIC TEXTS
+
+const txtModel_texts = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+// KEY MAP DATA
+
+const prompt_keyMapData = "Extract the key regions from the map. Only use the map to determine the regions. Do not make up any regions or any information source other than the map.";
+
+const schema_keyMapData = {
   description: "List of key regions in the map.",
   type: SchemaType.ARRAY,
   items: {
@@ -43,17 +53,26 @@ const key_map_data = {
   },
 };
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-
-const txtModel_texts = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
-const mapProcessingModel = genAI.getGenerativeModel({
+const geminiModel_keyMapData = genAI.getGenerativeModel({
   model: "gemini-1.5-flash",
   generationConfig: {
     responseMimeType: "application/json",
-    responseSchema: key_map_data,
+    responseSchema: schema_keyMapData,
   },
 });
+
+const extractData_keyMapData = async (fileArrayBuffer, fileMimeType) => {
+  const result = await geminiModel_keyMapData.generateContent([
+    {
+      inlineData: {
+        data: Buffer.from(fileArrayBuffer).toString("base64"),
+        mimeType: fileMimeType,
+      },
+    },
+    prompt_keyMapData
+  ]);
+  return result.response.text();
+};
 
 // UTILS
 
@@ -106,19 +125,6 @@ export const updateProject = action({
 });
 
 // STOREDFILES
-
-const extractData_keyMapData = async (fileArrayBuffer, fileMimeType) => {
-  const result = await mapProcessingModel.generateContent([
-    {
-      inlineData: {
-        data: Buffer.from(fileArrayBuffer).toString("base64"),
-        mimeType: fileMimeType,
-      },
-    },
-    "Extract the key regions from the map. Only use the map to determine the regions. Do not make up any regions or any information source other than the map.",
-  ]);
-  return result.response.text();
-};
 
 export const createNewStoredFile = action({
   args: {
@@ -199,7 +205,7 @@ export const debugAction = action({
   handler: async (ctx) => {
 
     await ctx.runAction(api.vsActions.analyseStoredFile,
-      { storedFileId: "j9782ed5bspne47c4st7sw520h7c46ag" }
+      { storedFileId: "j97d40kpcjxh77bkqrce58jdw97c41a0" }
     );
 
     console.log("analysis done");
