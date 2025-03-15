@@ -113,12 +113,12 @@ export const updateProject = action({
 
 // STOREDFILES
 
-const extractData_keyMapData = async (arrayBuffer) => {
+const extractData_keyMapData = async (fileArrayBuffer, fileMimeType) => {
   const result = await mapProcessingModel.generateContent([
     {
       inlineData: {
-        data: Buffer.from(arrayBuffer).toString("base64"),
-        mimeType: "image/jpeg",
+        data: Buffer.from(fileArrayBuffer).toString("base64"),
+        mimeType: fileMimeType,
       },
     },
     "Extract the key regions and actors in the map.",
@@ -171,7 +171,11 @@ export const analyseStoredFile = action({
     });
     const fileUrl = await ctx.storage.getUrl(storedFile.cvxStoredFileId);
 
-    const arrayBuffer = await fetch(fileUrl).then((response) =>
+    const fileMetaData = await ctx.storage.getMetadata(storedFile.cvxStoredFileId);
+
+    const fileMimeType = fileMetaData.contentType;
+
+    const fileArrayBuffer = await fetch(fileUrl).then((response) =>
       response.arrayBuffer()
     );
 
@@ -184,7 +188,7 @@ export const analyseStoredFile = action({
       storedFileId,
       updateDataStr: JSON.stringify(writeData),
     });
-    const keyMapData_Text = await extractData_keyMapData(arrayBuffer);
+    const keyMapData_Text = await extractData_keyMapData(fileArrayBuffer, fileMimeType);
     writeData.keyMapData_Status = "generated";
     writeData.keyMapData_Text = keyMapData_Text;
     uploadedFileData = await ctx.runMutation(internal.dbOps.updateStoredFile, {
@@ -201,7 +205,7 @@ export const debugAction = action({
   handler: async (ctx) => {
 
     await ctx.runAction(api.vsActions.analyseStoredFile,
-      { storedFileId: "j9782ed5bspne47c4st7sw520h7c46ag" }
+      { storedFileId: "j97crfzg9dvc48ke4fmsxkhw0x7c5ebp" }
     );
 
     console.log("analysis done");
