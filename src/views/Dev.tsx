@@ -38,7 +38,7 @@ export default function Dev() {
     link.click();
     document.body.removeChild(link);
   };
-  
+
   const [srcVal, setSrcVal] = useState("");
 
   const handleViewBtnClick = () => {
@@ -62,6 +62,7 @@ export default function Dev() {
       <Authenticated>
         <Flex w="60%" direction="column" align="stretch" gap="md" p="lg">
           <Textarea
+            rows={7}
             value={text}
             onChange={(event) => setText(event.currentTarget.value)}
             placeholder="Type something..."
@@ -69,24 +70,24 @@ export default function Dev() {
 
           {
             srcVal
-            ?
-            (
-              <Card withBorder p="md">
-                <img 
-                  src={srcVal}
-                  alt="Base64 Preview"
-                  style={{ maxWidth: '100%', height: 'auto' }}
-                  onError={(e) => {
-                    // Hide the image if the base64 is invalid
-                    (e.target as HTMLImageElement).style.display = 'none';
-                  }}
-                />
-              </Card>
-            )
-            :
-            (
-              <Text w="100%" ta="center">No image to display</Text>
-            )
+              ?
+              (
+                <Card withBorder p="md">
+                  <img
+                    src={srcVal}
+                    alt="Base64 Preview"
+                    style={{ maxWidth: '100%', height: 'auto' }}
+                    onError={(e) => {
+                      // Hide the image if the base64 is invalid
+                      (e.target as HTMLImageElement).style.display = 'none';
+                    }}
+                  />
+                </Card>
+              )
+              :
+              (
+                <Text w="100%" ta="center">No image to display</Text>
+              )
           }
 
           <Button
