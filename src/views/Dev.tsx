@@ -103,7 +103,7 @@ export default function Dev() {
 
   const handleDebugBtnClick = async () => {
     console.log("debug ------------------------ START");
-    const res = await cvxUtils.performAction_debugAction({ text: "mipoo" });
+    const res = await cvxUtils.performAction_debugAction();
     console.log(res);
     console.log("debug ------------------------ END");
   };

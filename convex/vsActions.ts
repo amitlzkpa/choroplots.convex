@@ -113,46 +113,17 @@ export const updateProject = action({
 
 // STOREDFILES
 
-const generateForPDF_offerings = async (pdfArrayBuffer) => {
-  const result = await soModel_offerings.generateContent([
+const extractData_keyMapData = async (arrayBuffer) => {
+  const result = await mapProcessingModel.generateContent([
     {
       inlineData: {
-        data: Buffer.from(pdfArrayBuffer).toString("base64"),
-        mimeType: "application/pdf",
+        data: Buffer.from(arrayBuffer).toString("base64"),
+        mimeType: "image/png",
       },
     },
-    "Extract the key offerings made available for applicants through this PDF.",
+    "Extract the key regions and actors in the map.",
   ]);
-  const offerings = result.response.text();
-  return offerings;
-};
-
-const generateForPDF_title = async (pdfArrayBuffer) => {
-  const result = await txtModel_texts.generateContent([
-    {
-      inlineData: {
-        data: Buffer.from(pdfArrayBuffer).toString("base64"),
-        mimeType: "application/pdf",
-      },
-    },
-    "Give a short title for this document. Keep it simple and don't use any formatting. Reply directly with one single suitable title.",
-  ]);
-  const titleText = result.response.text();
-  return titleText;
-};
-
-const generateForPDF_summary = async (pdfArrayBuffer) => {
-  const result = await txtModel_texts.generateContent([
-    {
-      inlineData: {
-        data: Buffer.from(pdfArrayBuffer).toString("base64"),
-        mimeType: "application/pdf",
-      },
-    },
-    "Give a very short description of the contents of this document in 1-2 sentences. Keep it simple and don't use any formatting. Reply directly with the answer. Eg: 'New York City's public housing scheme outlining eligibility criteria, application processes and available categories'",
-  ]);
-  const summaryText = result.response.text();
-  return summaryText;
+  return result.response.text();
 };
 
 export const createNewStoredFile = action({
@@ -171,7 +142,7 @@ export const createNewStoredFile = action({
       internal.dbOps.createNewStoredFile,
       writeData
     );
-    ctx.runAction(api.vsActions.analyseStoredFile, { storedFileId: newStoredFileId });
+    // ctx.runAction(api.vsActions.analyseStoredFile, { storedFileId: newStoredFileId });
     return newStoredFileId;
   },
 });
@@ -200,47 +171,22 @@ export const analyseStoredFile = action({
     });
     const fileUrl = await ctx.storage.getUrl(storedFile.cvxStoredFileId);
 
-    const pdfArrayBuffer = await fetch(fileUrl).then((response) =>
+    const arrayBuffer = await fetch(fileUrl).then((response) =>
       response.arrayBuffer()
     );
 
     let uploadedFileData;
 
-    const writeData = { titleStatus: "generating" };
+    const writeData = {};
 
+    writeData.keyMapData_Status = "generating";
     uploadedFileData = await ctx.runMutation(internal.dbOps.updateStoredFile, {
       storedFileId,
       updateDataStr: JSON.stringify(writeData),
     });
-    const titleText = await generateForPDF_title(pdfArrayBuffer);
-    writeData.titleStatus = "generated";
-    writeData.titleText = titleText;
-    uploadedFileData = await ctx.runMutation(internal.dbOps.updateStoredFile, {
-      storedFileId,
-      updateDataStr: JSON.stringify(writeData),
-    });
-
-    writeData.summaryStatus = "generating";
-    uploadedFileData = await ctx.runMutation(internal.dbOps.updateStoredFile, {
-      storedFileId,
-      updateDataStr: JSON.stringify(writeData),
-    });
-    const summaryText = await generateForPDF_summary(pdfArrayBuffer);
-    writeData.summaryStatus = "generated";
-    writeData.summaryText = summaryText;
-    uploadedFileData = await ctx.runMutation(internal.dbOps.updateStoredFile, {
-      storedFileId,
-      updateDataStr: JSON.stringify(writeData),
-    });
-
-    writeData.offerings_Status = "generating";
-    uploadedFileData = await ctx.runMutation(internal.dbOps.updateStoredFile, {
-      storedFileId,
-      updateDataStr: JSON.stringify(writeData),
-    });
-    const offerings_Text = await generateForPDF_offerings(pdfArrayBuffer);
-    writeData.offerings_Status = "generated";
-    writeData.offerings_Text = offerings_Text;
+    const keyMapData_Text = await extractData_keyMapData(arrayBuffer);
+    writeData.keyMapData_Status = "generated";
+    writeData.keyMapData_Text = keyMapData_Text;
     uploadedFileData = await ctx.runMutation(internal.dbOps.updateStoredFile, {
       storedFileId,
       updateDataStr: JSON.stringify(writeData),
@@ -264,22 +210,13 @@ export const mapCreate = action({
 
 export const debugAction = action({
   args: {
-    text: v.string(),
   },
   handler: async (ctx, { text }) => {
-    const mapId = "jd7bf3p6310my6a26mzy375zxd7c56px";
-    const map = await ctx.runQuery(internal.dbOps.getMap_ByMapId, {
-      mapId,
-    });
-    const result = await mapProcessingModel.generateContent([
-      {
-        inlineData: {
-          data: map.text,
-          mimeType: "image/jpeg",
-        },
-      },
-      "Extract the key regions and actors in the map.",
-    ]);
-    return result.response.text();
+
+    await ctx.runAction(api.vsActions.analyseStoredFile,
+      { storedFileId: "j97d40kpcjxh77bkqrce58jdw97c41a0" }
+    );
+
+    console.log("analysis done");
   },
 });
