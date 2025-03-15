@@ -8,9 +8,13 @@ export const mapCreate = httpAction(async (ctx, request) => {
 
   const { text } = await request.json();
 
-  const map = await ctx.runAction(api.vsActions.mapCreate, {
+  console.log(text);
+
+  const mapId = await ctx.runMutation(internal.dbOps.createNewMap, {
     text,
   });
+
+  console.log(mapId);
 
   return new Response("Yessire!", {
     status: 200,
