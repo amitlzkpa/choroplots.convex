@@ -9,9 +9,6 @@ import { v } from "convex/values";
 import { google } from "googleapis";
 import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
 // import jwt from "jsonwebtoken";
-import * as docusign from "docusign-esign";
-
-import { documentTypes } from "../common/documentTypes";
 
 let DEV = true;
 DEV = false;
