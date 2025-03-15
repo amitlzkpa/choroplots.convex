@@ -1,12 +1,12 @@
 import { httpRouter } from "convex/server";
-import { mapCreate } from "./vsHttpActions";
+import { foo } from "./vsHttpActions";
 
 const http = httpRouter();
 
 http.route({
-  path: "/api/maps/create",
+  path: "/api/foo",
   method: "POST",
-  handler: mapCreate,
+  handler: foo,
 });
 
 export default http;

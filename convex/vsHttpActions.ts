@@ -4,7 +4,7 @@ import { api, internal } from "./_generated/api";
 import { Id } from "./_generated/dataModel";
 import { v } from "convex/values";
 
-export const mapCreate = httpAction(async (ctx, request) => {
+export const foo = httpAction(async (ctx, request) => {
 
   // if (request.method === "OPTIONS") {
   //   return new Response(null, {
