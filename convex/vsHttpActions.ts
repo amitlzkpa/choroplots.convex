@@ -60,3 +60,36 @@ export const generateUploadUrl = httpAction(async (ctx, request) => {
   });
 });
 
+export const createStoredFile = httpAction(async (ctx, request) => {
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: 204,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
+    });
+  }
+
+  if (request.method !== "POST") {
+    return new Response("Only POST requests are supported", { status: 405 });
+  }
+
+  const { cvxStoredFileId, projectId, subreddit, username, postId } = await request.json();
+
+  const storedFileId = await ctx.runMutation(internal.dbOps.createNewStoredFile, {
+    cvxStoredFileId,
+    projectId,
+    subreddit,
+    username,
+    postId
+  });
+
+  return new Response(JSON.stringify({ storedFileId }), {
+    status: 200,
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+});
