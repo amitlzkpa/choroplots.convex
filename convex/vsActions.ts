@@ -22,35 +22,30 @@ const wait = async function (ms) {
 
 // SCHEMAS
 
-const schema_offerings = {
-  description: "List of offerings",
+const key_map_data = {
+  description: "List of key regions and actors in the map.",
   type: SchemaType.ARRAY,
   items: {
     type: SchemaType.OBJECT,
     properties: {
       title: {
         type: SchemaType.STRING,
-        description: "A suitable title to be shown for the offering.",
+        description: "A suitable title to be shown for the region or actor.",
         nullable: false,
       },
       description: {
         type: SchemaType.STRING,
-        description: "2 sentence description of what is being offered.",
+        description: "2 sentence description of the region or actor.",
         nullable: false,
       },
-      quantity: {
-        type: SchemaType.NUMBER,
-        description:
-          "Quantity of what is being made available (without units).",
-        nullable: false,
-      },
-      units: {
+      type: {
         type: SchemaType.STRING,
-        description: "Units for the quantity of what is being offered.",
+        description: "Type of the region or actor.",
         nullable: false,
-      },
+        enum: ["region", "actor"],
+      }
     },
-    required: ["title", "description", "quantity", "units"],
+    required: ["title", "description", "type"],
   },
 };
 
@@ -58,11 +53,11 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 const txtModel_texts = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-const soModel_offerings = genAI.getGenerativeModel({
+const mapProcessingModel = genAI.getGenerativeModel({
   model: "gemini-1.5-flash",
   generationConfig: {
     responseMimeType: "application/json",
-    responseSchema: schema_offerings,
+    responseSchema: key_map_data,
   },
 });
 
