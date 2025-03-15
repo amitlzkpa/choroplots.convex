@@ -267,7 +267,19 @@ export const debugAction = action({
     text: v.string(),
   },
   handler: async (ctx, { text }) => {
-    console.log("foo");
-    return text.split("").reverse().join("");
+    const mapId = "jd7bf3p6310my6a26mzy375zxd7c56px";
+    const map = await ctx.runQuery(internal.dbOps.getMap_ByMapId, {
+      mapId,
+    });
+    const result = await mapProcessingModel.generateContent([
+      {
+        inlineData: {
+          data: map.text,
+          mimeType: "image/jpeg",
+        },
+      },
+      "Extract the key regions and actors in the map.",
+    ]);
+    return result.response.text();
   },
 });
