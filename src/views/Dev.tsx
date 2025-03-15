@@ -65,6 +65,13 @@ export default function Dev() {
     });
   };
 
+  const handleDebugBtnClick = async () => {
+    console.log("debug ------------------------ START");
+    const res = await cvxUtils.performAction_debugAction({ text: "mipoo" });
+    console.log(res);
+    console.log("debug ------------------------ END");
+  };
+
   return (
     <Flex w="100%" direction="column" align="center" gap="sm">
       <AuthLoading>
@@ -106,6 +113,8 @@ export default function Dev() {
               )
           }
 
+          <Divider w="100%" />
+
           <Button
             w="100%"
             onClick={handleViewBtnClick}
@@ -132,6 +141,17 @@ export default function Dev() {
             Clear
           </Button>
 
+          <Divider w="100%" />
+
+          <Button
+            variant="light"
+            w="100%"
+            onClick={handleDebugBtnClick}
+            size="lg"
+          >
+            Debug
+          </Button>
+
           <Button
             w="100%"
             onClick={handleCreateBtnClick}
@@ -147,6 +167,8 @@ export default function Dev() {
           >
             Create HTTPS
           </Button>
+
+          <Divider w="100%" />
         </Flex>
       </Authenticated>
     </Flex>

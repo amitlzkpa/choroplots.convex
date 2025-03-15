@@ -22,6 +22,8 @@ export default function useCvxUtils() {
 
   const performAction_mapCreate = useAction(api.vsActions.mapCreate);
 
+  const performAction_debugAction = useAction(api.vsActions.debugAction);
+
   return {
     performAction_generateUploadUrl,
     performAction_createNewProject,
@@ -30,5 +32,6 @@ export default function useCvxUtils() {
     performAction_updateStoredFile,
     performAction_analyseStoredFile,
     performAction_mapCreate,
+    performAction_debugAction,
   };
 }

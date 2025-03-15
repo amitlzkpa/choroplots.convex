@@ -266,3 +266,13 @@ export const mapCreate = action({
     return map;
   },
 });
+
+export const debugAction = action({
+  args: {
+    text: v.string(),
+  },
+  handler: async (ctx, { text }) => {
+    console.log("foo");
+    return text.split("").reverse().join("");
+  },
+});
