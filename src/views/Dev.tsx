@@ -51,8 +51,8 @@ export default function Dev() {
   };
 
   const handleCreateHttpsBtnClick = () => {
-    let url = window.location.origin + "/api/maps/create";
-    // url = "https://choroplots-convex.vercel.app/api/maps/create";
+    const url = window.location.origin + "/api/maps/create";
+    // const url = "https://choroplots-convex.vercel.app/api/maps/create";
 
     console.log(url);
 
@@ -139,7 +139,7 @@ export default function Dev() {
           >
             Create
           </Button>
-          
+
           <Button
             w="100%"
             onClick={handleCreateHttpsBtnClick}
