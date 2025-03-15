@@ -48,11 +48,6 @@ export default function Dev() {
     setSrcVal(text.startsWith('data:') ? text : `data:image/jpeg;base64,${text}`);
   };
 
-  const handleCreateBtnClick = async () => {
-    const mapId = await cvxUtils.performAction_mapCreate({ text });
-    console.log(mapId);
-  };
-
   const handleCreateHttpsBtnClick = () => {
     const url = window.location.origin + "/api/maps/create";
     // const url = "https://choroplots-convex.vercel.app/api/maps/create";
@@ -67,8 +62,6 @@ export default function Dev() {
       body: JSON.stringify({ text })
     });
   };
-
-
 
   const onClick_uploadFiles_StoredFile = async (droppedFiles: any) => {
     const ps = droppedFiles.map(
@@ -206,14 +199,6 @@ export default function Dev() {
           </Button>
 
           <Divider w="100%" />
-
-          <Button
-            w="100%"
-            onClick={handleCreateBtnClick}
-            size="lg"
-          >
-            Create
-          </Button>
 
           <Button
             w="100%"
