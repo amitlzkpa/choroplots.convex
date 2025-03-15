@@ -76,11 +76,10 @@ export const createStoredFile = httpAction(async (ctx, request) => {
     return new Response("Only POST requests are supported", { status: 405 });
   }
 
-  const { cvxStoredFileId, projectId, subreddit, username, postId } = await request.json();
+  const { cvxStoredFileId, subreddit, username, postId } = await request.json();
 
-  const storedFileId = await ctx.runMutation(internal.dbOps.createNewStoredFile, {
+  const storedFileId = await ctx.runMutation(internal.dbOps.createNewStoredFileFromHttp, {
     cvxStoredFileId,
-    projectId,
     subreddit,
     username,
     postId
