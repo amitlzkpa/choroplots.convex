@@ -61,12 +61,6 @@ export default function Project() {
     const storedFileIds = (await Promise.allSettled(ps))
       .filter((r) => r.status === "fulfilled")
       .map((r) => r.value);
-
-    const updateData = JSON.stringify({
-      initializationStatus: "files_uploaded",
-    });
-
-    await cvxUtils.performAction_updateProject({ projectId: projectId as Id<"vsProjects">, updateData });
   };
 
   return (

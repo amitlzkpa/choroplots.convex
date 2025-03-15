@@ -78,7 +78,6 @@ export const createNewProject = internalMutation({
     if (!currUser) return null;
     const newProjectData = {
       creator: currUser,
-      initializationStatus: "uninitialized",
     };
     const newProject = await ctx.db.insert("vsProjects", newProjectData);
     return newProject;
