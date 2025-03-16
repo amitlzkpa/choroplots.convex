@@ -1,222 +1,54 @@
 [
   {
-    "description": "The Tenebrarum Empire is a large empire in Europe, encompassing much of the Mediterranean and extending into parts of Asia.  It appears to be the dominant power in the provided map.",
-    "title": "Tenebrarum Empire",
-    "type": "region"
+    "description": "Ribe, Northumbria, Seaxoland, Mercia, Sussex, Welsh kg, Ex, and Edgar are key regions in the northern part of Europe. This area is marked by its kingdoms and regional divisions.",
+    "title": "Northern European Kingdoms"
   },
   {
-    "description": "Ribe is a small kingdom located in Northern Europe; its location suggests it may be part of a larger political entity such as Northumbria.",
-    "title": "Ribe",
-    "type": "region"
+    "description": "Tenebrarum empire is a large and significant empire covering much of Europe in this map. Its dominance is depicted through its large territorial coverage.",
+    "title": "Tenebrarum Empire"
   },
   {
-    "description": "Northumbria was a powerful Anglo-Saxon kingdom in Northern England.  In this map, it appears to be relatively small and not the main focus.",
-    "title": "Northumbria",
-    "type": "region"
+    "description": "The Mali empire is located in West Africa and is shown to be large and influential.  Its prominence is visually represented by its size in the provided map.",
+    "title": "Mali Empire"
   },
   {
-    "description": "The Seaxland is another Anglo-Saxon kingdom, in southeastern England. It is not the largest or most powerful entity on the map.",
-    "title": "Seaxoland",
-    "type": "region"
+    "description": "The Coptic Kingdom is a significant region in northeast Africa, as shown on this map. Its location and relative size are easily identifiable.",
+    "title": "Coptic Kingdom"
   },
   {
-    "description": "Mercia was a powerful Anglo-Saxon kingdom in central England. In this representation, it is a relatively smaller power.",
-    "title": "Mercia",
-    "type": "region"
+    "description": "Kongo is a central African region shown on the map. Its location and boundaries are clearly defined.",
+    "title": "Kongo"
   },
   {
-    "description": "Sussex was an Anglo-Saxon kingdom in Southern England. It is of small size on the map.",
-    "title": "Sussex",
-    "type": "region"
+    "description": "The Inca empire is situated along the western coast of South America, predominantly in the Andes region. It is depicted with a significant territorial reach.",
+    "title": "Inca Empire"
   },
   {
-    "description": "Welsh Kingdom is a region in Western Britain.  It's a smaller kingdom compared to others on the map.",
-    "title": "Welsh Kingdom",
-    "type": "region"
+    "description": "The Mayan civilization is located in present-day Mexico and Central America.  It's displayed as a relatively smaller region compared to other empires in the map.",
+    "title": "Mayans"
   },
   {
-    "description": "Exeter is a city in southwest England. In this historical scenario, it appears as a localized region.",
-    "title": "Exeter",
-    "type": "region"
+    "description": "The Aztec Empire is represented as a significant region in central Mexico on this map. Its location and size provide context to its importance.",
+    "title": "Aztec Empire"
   },
   {
-    "description": "Edgar is a name, potentially referring to an individual or a region named after an individual. More context is needed to explain its nature.",
-    "title": "Edgar",
-    "type": "actor"
+    "description": "The Siberian Khaganate is a large region in Northern Asia, encompassing a vast expanse of territory. Its territorial extent is clearly visible on the map.",
+    "title": "Siberian Khaganate"
   },
   {
-    "description": "The Inca Empire was a powerful civilization in South America. On this map, its geographic extent is depicted.",
-    "title": "Inca Empire",
-    "type": "region"
+    "description": "The Oirats Khaganate is a large region located in Central Asia.  Its size and location are clearly depicted in relation to surrounding territories.",
+    "title": "Oirats Khaganate"
   },
   {
-    "description": "The Aztec Empire was a significant civilization in Mesoamerica (Central Mexico). This is a depiction of its extent.",
-    "title": "Aztec Empire",
-    "type": "region"
+    "description": "The Ming dynasty is depicted as covering a substantial portion of East Asia, including much of China. Its widespread reach is emphasized in this map.",
+    "title": "Ming Dynasty"
   },
   {
-    "description": "The Mayan civilization thrived in Central America. Here its geographic reach is displayed.",
-    "title": "Mayan Civilization",
-    "type": "region"
+    "description": "The Java Empire is shown in Southeast Asia, specifically on the island of Java. Its location is clearly marked on the map.",
+    "title": "Java Empire"
   },
   {
-    "description": "The Mali Empire was a powerful empire in West Africa. Here, the extent of its power is represented on the map.",
-    "title": "Mali Empire",
-    "type": "region"
-  },
-  {
-    "description": "The Coptic Kingdom was a Christian kingdom in Egypt. Its location and relative size are given on the map.",
-    "title": "Coptic Kingdom",
-    "type": "region"
-  },
-  {
-    "description": "The Kongo Kingdom was a major kingdom in Central Africa. Its geographic reach is indicated on the map.",
-    "title": "Kongo Kingdom",
-    "type": "region"
-  },
-  {
-    "description": "The Siberian Khaganate was a large political entity in Northern Asia.  This map displays its extent.",
-    "title": "Siberian Khaganate",
-    "type": "region"
-  },
-  {
-    "description": "The Khiva Khaganate was a powerful entity in Central Asia. This map shows its geographic position.",
-    "title": "Khiva Khaganate",
-    "type": "region"
-  },
-  {
-    "description": "The Oirats Khaganate was a powerful political entity in Central Asia. Here, its location and size are represented.",
-    "title": "Oirats Khaganate",
-    "type": "region"
-  },
-  {
-    "description": "The Ming Dynasty was the ruling dynasty of China.  Its position is indicated on the map.",
-    "title": "Ming Dynasty",
-    "type": "region"
-  },
-  {
-    "description": "The Java Empire was an influential kingdom in Indonesia. Its location and approximate size are displayed.",
-    "title": "Java Empire",
-    "type": "region"
-  },
-  {
-    "description": "Various Turkic tribes were nomadic groups in Central Asia.  Their presence is shown on this map.",
-    "title": "Turkic Tribes",
-    "type": "actor"
-  },
-  {
-    "description": "Various Tibetan peoples inhabited the Tibetan Plateau. This map indicates their presence.",
-    "title": "Tibetan People",
-    "type": "actor"
-  },
-  {
-    "description": "Various Indian tribes existed in the Indian subcontinent. Their presence is indicated on the map.",
-    "title": "Indian Tribes",
-    "type": "actor"
-  },
-  {
-    "description": "Various Khmer tribes lived in Southeast Asia. Their position is shown on the map.",
-    "title": "Khmer Tribes",
-    "type": "actor"
-  },
-  {
-    "description": "Various aboriginal people inhabited Australia.  The map shows this.",
-    "title": "Aboriginal People",
-    "type": "actor"
-  },
-  {
-    "description": "Various Papuan people inhabited the island of New Guinea. Their location is marked on the map.",
-    "title": "Papuan People",
-    "type": "actor"
-  },
-  {
-    "description": "The Maori people were the indigenous people of New Zealand.  The map marks their territory.",
-    "title": "Maori People",
-    "type": "actor"
-  },
-  {
-    "description": "The various Tungusic peoples inhabited Siberia.  The map indicates their presence.",
-    "title": "Tungusic People",
-    "type": "actor"
-  },
-  {
-    "description": "Various Alans, a group of Iranian peoples, had a presence in the area.",
-    "title": "Alans",
-    "type": "actor"
-  },
-  {
-    "description": "Various Circassians were inhabitants of the Caucasus region. This map shows their location.",
-    "title": "Circassians",
-    "type": "actor"
-  },
-  {
-    "description": "Various Arabic tribes inhabited the Arabian Peninsula.  This map shows their position.",
-    "title": "Arabic Tribes",
-    "type": "actor"
-  },
-  {
-    "description": "Various Bantu peoples inhabited parts of Africa.  The migration of Bantu peoples is also shown.",
-    "title": "Bantu People",
-    "type": "actor"
-  },
-  {
-    "description": "Various Ethiopians lived in the region of modern-day Ethiopia. The map shows their location.",
-    "title": "Ethiopians",
-    "type": "actor"
-  },
-  {
-    "description": "Various Berbers lived in North Africa. Their position is shown on the map.",
-    "title": "Berbers",
-    "type": "actor"
-  },
-  {
-    "description": "Various Tuaregs lived in the Sahara Desert. The map shows their location.",
-    "title": "Tuaregs",
-    "type": "actor"
-  },
-  {
-    "description": "Various Blemmyes lived in the region of Nubia. The map shows their location.",
-    "title": "Blemmyes",
-    "type": "actor"
-  },
-  {
-    "description": "Various Slavs inhabited Eastern Europe.  The map shows their presence.",
-    "title": "Slavs",
-    "type": "actor"
-  },
-  {
-    "description": "Various Balts inhabited Northern Europe. The map shows their presence.",
-    "title": "Balts",
-    "type": "actor"
-  },
-  {
-    "description": "Various Vlachs were a Romance-speaking people. This map shows their presence.",
-    "title": "Vlachs",
-    "type": "actor"
-  },
-  {
-    "description": "Various Nenets were a Samoyedic group. This map shows their location.",
-    "title": "Nenets",
-    "type": "actor"
-  },
-  {
-    "description": "Various Uralic peoples lived in Northern Asia.  Their presence is indicated on the map.",
-    "title": "Uralic Peoples",
-    "type": "actor"
-  },
-  {
-    "description": "Various Siberians inhabited Siberia. The map shows their presence.",
-    "title": "Siberians",
-    "type": "actor"
-  },
-  {
-    "description": "Various Georgian people lived in modern-day Georgia. Their location is shown.",
-    "title": "Georgians",
-    "type": "actor"
-  },
-  {
-    "description": "Various Crimean tribes inhabited the Crimean Peninsula. Their location is indicated.",
-    "title": "Crimean Tribes",
-    "type": "actor"
+    "description": "This region represents the Aboriginal people of Australia, their territory encompassing most of the continent.  The map indicates this to be a large, geographically significant territory.",
+    "title": "Aboriginal People"
   }
 ]
