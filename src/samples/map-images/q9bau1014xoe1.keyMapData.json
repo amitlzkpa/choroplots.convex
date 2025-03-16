@@ -1,0 +1,17 @@
+[
+  {
+    "description": "The Roman Empire during the reign of Augustus, encompassing the Italian peninsula, Gaul, Hispania, and parts of North Africa.  This area represents the core territories under direct Roman rule.",
+    "title": "Augustinian Rome",
+    "type": "region"
+  },
+  {
+    "description": "The region of Macedonia, shared between the Roman Republic and the Ptolemaic Kingdom. It served as a buffer zone between the two empires. ",
+    "title": "Condominium of Macedonia",
+    "type": "region"
+  },
+  {
+    "description": "The Ptolemaic Kingdom, encompassing Egypt and territories in the Levant, including Syria, Judea and parts of the Middle East. This area was ruled by the Ptolemaic dynasty.",
+    "title": "Egyptian Realm",
+    "type": "region"
+  }
+]

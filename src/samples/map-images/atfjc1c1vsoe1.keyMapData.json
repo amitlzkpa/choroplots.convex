@@ -1,0 +1,14 @@
+[
+  {
+    "description": "This region is located on the eastern coast of the Mediterranean Sea and includes areas such as Galilee, Samaria, and Judea.  It also includes a portion of the Sinai Peninsula.",
+    "title": "Israel"
+  },
+  {
+    "description": "This area is primarily located in the northern portion of the region depicted in the map. It encompasses regions such as Lebanon, Syria, and a small part of Jordan.",
+    "title": "Northern Levant"
+  },
+  {
+    "description": "This region is situated in the southern portion of the area shown on the map, and it consists mainly of the Sinai Peninsula and parts of the Arabian Desert.",
+    "title": "Southern Levant and Sinai"
+  }
+]
