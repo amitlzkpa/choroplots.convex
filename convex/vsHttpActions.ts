@@ -92,3 +92,28 @@ export const createStoredFile = httpAction(async (ctx, request) => {
     }
   });
 });
+
+export const generateArticleStatements = httpAction(async (ctx, request) => {
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: 204,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
+    });
+  }
+
+  if (request.method !== "POST") {
+    return new Response("Only POST requests are supported", { status: 405 });
+  }
+
+  return new Response(JSON.stringify({}), {
+    status: 200,
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+});
+
