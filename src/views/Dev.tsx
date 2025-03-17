@@ -90,7 +90,7 @@ export default function Dev() {
     const storedFileIds = (await Promise.allSettled(ps))
       .filter((r) => r.status === "fulfilled")
       .map((r) => r.value);
-    
+
     console.log(storedFileIds);
   };
 
@@ -99,6 +99,11 @@ export default function Dev() {
     const res = await cvxUtils.performAction_debugAction();
     console.log(res);
     console.log("debug ------------------------ END");
+  };
+
+  const handleStableDiffusionBtnClick = async () => {
+    const res = await cvxUtils.performAction_stableDiffusionAction();
+    console.log(res);
   };
 
   return (
@@ -206,6 +211,16 @@ export default function Dev() {
             size="lg"
           >
             Create HTTPS
+          </Button>
+
+          <Divider w="100%" />
+
+          <Button
+            w="100%"
+            onClick={handleStableDiffusionBtnClick}
+            size="lg"
+          >
+            Stable Diffusion
           </Button>
 
           <Divider w="100%" />

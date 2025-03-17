@@ -209,6 +209,15 @@ export const debugAction = action({
   },
 });
 
+// STABLE DIFFUSION
+
+export const stableDiffusionAction = action({
+  args: {},
+  handler: async (ctx) => {
+  }
+});
+
+
 
 
 // FALLACY EXTRACTION (untested)
