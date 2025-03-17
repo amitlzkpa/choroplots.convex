@@ -211,7 +211,7 @@ export const debugAction = action({
 
 
 
-// FALLACY EXTRACTION
+// FALLACY EXTRACTION (untested)
 
 const prompt_fallacyExtraction = "Extract a list of logical fallacies from the image. Each fallacy should include an id, name, explainer, and example. Ensure the details are accurate.";
 
