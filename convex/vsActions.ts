@@ -232,16 +232,19 @@ async function checkStabilityBalance() {
 };
 
 async function generateStableDiffusionImage(prompt: string) {
+  const payload = new FormData();
+  payload.append("prompt", prompt);
+  payload.append("output_format", "png");
+
   const response = await fetch(
-    "https://api.stability.ai/v1/generation/stable-diffusion-v1-5/text-to-image",
+    "https://api.stability.ai/v2beta/stable-image/generate/core",
     {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${process.env.STABILITY_API_KEY}`,
+        Authorization: `Bearer ${process.env.STABILITY_API_KEY}`,
+        Accept: "image/*",
       },
-      body: JSON.stringify({
-        prompt: prompt,
-      }),
+      body: payload,
     }
   );
 
@@ -249,8 +252,7 @@ async function generateStableDiffusionImage(prompt: string) {
     throw new Error(`Stability API error: ${response.statusText}`);
   }
 
-  const image = await response.json();
-
+  const image = await response.arrayBuffer();
   return image;
 };
 
@@ -263,12 +265,13 @@ export const stableDiffusionAction = action({
     try {
 
       const image = await generateStableDiffusionImage("A beautiful landscape with a river and mountains");
+      const base64Image = Buffer.from(image).toString("base64");
       console.log("Stable Diffusion Image:", image);
 
-      const balance = await checkStabilityBalance();
+      const balance = await checkStabilityBalance("Hyenas hunting in the savannah");
       console.log("Stability API Balance:", balance);
 
-      return image;
+      return base64Image;
 
     } catch (error: any) {
       console.error(error?.message || "An unknown error occurred");
