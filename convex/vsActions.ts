@@ -208,3 +208,79 @@ export const debugAction = action({
     console.log("analysis done");
   },
 });
+
+
+
+// FALLACY EXTRACTION
+
+const prompt_fallacyExtraction = "Extract a list of logical fallacies from the image. Each fallacy should include an id, name, explainer, and example. Ensure the details are accurate.";
+
+const schema_fallacyExtraction = {
+  description: "List of logical fallacies extracted from the image.",
+  type: SchemaType.ARRAY,
+  items: {
+    type: SchemaType.OBJECT,
+    properties: {
+      id: {
+        type: SchemaType.STRING,
+        description: "A unique identifier for the fallacy.",
+        nullable: false,
+      },
+      name: {
+        type: SchemaType.STRING,
+        description: "The name of the logical fallacy.",
+        nullable: false,
+      },
+      explainer: {
+        type: SchemaType.STRING,
+        description: "A brief explanation of the fallacy.",
+        nullable: false,
+      },
+      example: {
+        type: SchemaType.STRING,
+        description: "An example illustrating the fallacy.",
+        nullable: false,
+      }
+    },
+    required: ["id", "name", "explainer", "example"],
+  },
+};
+
+const geminiModel_fallacyExtraction = genAI.getGenerativeModel({
+  model: "gemini-1.5-flash",
+  generationConfig: {
+    responseMimeType: "application/json",
+    responseSchema: schema_fallacyExtraction,
+  },
+});
+
+const extractFallaciesFromImage = async (fileArrayBuffer, fileMimeType) => {
+  const result = await geminiModel_fallacyExtraction.generateContent([
+    {
+      inlineData: {
+        data: Buffer.from(fileArrayBuffer).toString("base64"),
+        mimeType: fileMimeType,
+      },
+    },
+    prompt_fallacyExtraction
+  ]);
+  return result.response.text();
+};
+
+export const fallacyExtractionAction = action({
+  args: {
+    fileUrl: v.string(),
+  },
+  handler: async (ctx) => {
+
+    const fileArrayBuffer = await fetch(fileUrl).then((response) =>
+      response.arrayBuffer()
+    );
+
+    const fileMimeType = "image/png";
+
+    const fallacyExtractionData_Text = await extractFallaciesFromImage(fileArrayBuffer, fileMimeType);
+
+    console.log("analysis done");
+  },
+});
