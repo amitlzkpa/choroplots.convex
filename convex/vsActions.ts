@@ -211,27 +211,36 @@ export const debugAction = action({
 
 // STABLE DIFFUSION
 
+async function checkStabilityBalance() {
+  const response = await fetch(
+    "https://api.stability.ai/v1/user/balance",
+    {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${process.env.STABILITY_API_KEY}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`Stability API error: ${response.statusText}`);
+  }
+
+  const balance = await response.json();
+  console.log("Stability API Balance:", balance);
+  return balance;
+};
+
+
 export const stableDiffusionAction = action({
   args: {},
   handler: async (ctx) => {
 
     try {
-      const response = await fetch(
-        "https://api.stability.ai/v1/user/balance",
-        {
-          method: "GET",
-          headers: {
-            "Authorization": `Bearer ${process.env.STABILITY_API_KEY}`,
-          },
-        }
-      );
 
-      if (!response.ok) {
-        throw new Error(`Stability API error: ${response.statusText}`);
-      }
-
-      const balance = await response.json();
+      const balance = await checkStabilityBalance();
       console.log("Stability API Balance:", balance);
+
       return balance;
 
     } catch (error) {
