@@ -231,6 +231,30 @@ async function checkStabilityBalance() {
   return balance;
 };
 
+async function generateStableDiffusionImage(prompt: string) {
+  const response = await fetch(
+    "https://api.stability.ai/v1/generation/stable-diffusion-v1-5/text-to-image",
+    {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${process.env.STABILITY_API_KEY}`,
+      },
+      body: JSON.stringify({
+        prompt: prompt,
+      }),
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error(`Stability API error: ${response.statusText}`);
+  }
+
+  const image = await response.json();
+
+  return image;
+};
+
+
 
 export const stableDiffusionAction = action({
   args: {},
@@ -238,13 +262,16 @@ export const stableDiffusionAction = action({
 
     try {
 
+      const image = await generateStableDiffusionImage("A beautiful landscape with a river and mountains");
+      console.log("Stable Diffusion Image:", image);
+
       const balance = await checkStabilityBalance();
       console.log("Stability API Balance:", balance);
 
-      return balance;
+      return image;
 
-    } catch (error) {
-      console.error("Error checking Stability API:", error);
+    } catch (error: any) {
+      console.error(error?.message || "An unknown error occurred");
       throw error;
     }
   }
