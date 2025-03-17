@@ -264,11 +264,11 @@ export const stableDiffusionAction = action({
 
     try {
 
-      const image = await generateStableDiffusionImage("A beautiful landscape with a river and mountains");
+      const image = await generateStableDiffusionImage("Hyenas hunting in the savannah");
       const base64Image = Buffer.from(image).toString("base64");
       console.log("Stable Diffusion Image:", image);
 
-      const balance = await checkStabilityBalance("Hyenas hunting in the savannah");
+      const balance = await checkStabilityBalance();
       console.log("Stability API Balance:", balance);
 
       return base64Image;
