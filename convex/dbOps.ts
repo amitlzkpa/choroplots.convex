@@ -162,12 +162,12 @@ export const createNewStoredFile = internalMutation({
 export const createNewStoredFileFromHttp = internalMutation({
   args: {
     cvxStoredFileId: v.optional(v.id("_storage")),
-    title: v.string(),
-    details: v.string(),
+    title: v.optional(v.string()),
+    details: v.optional(v.string()),
     base64Image: v.optional(v.string()),
-    subreddit: v.string(),
-    username: v.string(),
-    postId: v.string(),
+    subreddit: v.optional(v.string()),
+    username: v.optional(v.string()),
+    postId: v.optional(v.string()),
   },
   handler: async (ctx, { cvxStoredFileId, title, details, base64Image, subreddit, username, postId }) => {
     const storedFileData = {
