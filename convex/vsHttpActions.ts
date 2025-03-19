@@ -76,14 +76,12 @@ export const createStoredFile = httpAction(async (ctx, request) => {
     return new Response("Only POST requests are supported", { status: 405 });
   }
 
-  const { cvxStoredFileId, subreddit, username, postId } = await request.json();
+  const requestData = await request.json();
 
-  const storedFileId = await ctx.runMutation(internal.dbOps.createNewStoredFileFromHttp, {
-    cvxStoredFileId,
-    subreddit,
-    username,
-    postId
-  });
+  // TODO: Replace any with suitable type
+  const initData_storedFile: any = requestData;
+
+  const storedFileId = await ctx.runMutation(internal.dbOps.createNewStoredFileFromHttp, initData_storedFile);
 
   return new Response(JSON.stringify({ storedFileId }), {
     status: 200,
@@ -109,7 +107,7 @@ export const generateArticleStatements = httpAction(async (ctx, request) => {
     return new Response("Only POST requests are supported", { status: 405 });
   }
 
-  return new Response(JSON.stringify({}), {
+  return new Response(JSON.stringify({ abc: "def" }), {
     status: 200,
     headers: {
       "Content-Type": "application/json"
