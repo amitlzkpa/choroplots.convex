@@ -355,3 +355,172 @@ export const fallacyExtractionAction = action({
     console.log("analysis done");
   },
 });
+
+const modifierList_articleTone = ["simple", "neutral", "interesting", "alarming", "compelling", "sentimental", "wise"];
+
+const seed_articleTone = 3;
+
+// ARTICLE STATEMENTS
+
+const promptTemplate_articleStatements = `
+Extract key points from the following article as individual claims.
+Each claim should contain information necessary to be complete by itself.
+Give 4-6 claims.
+Keep the sentences brief and be clear justifying the rationale behind each statement.
+Only use information from the article and don't include any extra information.
+It should sound like an individual claim which works towards building up the overall message in the article.
+Write in first person.
+Make it sound {__articleTone__}.
+`;
+
+const schema_articleStatements = {
+  description: "List of key points extracted from the article.",
+  type: SchemaType.ARRAY,
+  items: {
+    type: SchemaType.OBJECT,
+    properties: {
+      statement: {
+        type: SchemaType.STRING,
+        description: "The statement.",
+        nullable: false,
+      },
+    },
+    required: ["statement"],
+  },
+};
+
+const geminiModel_articleStatements = genAI.getGenerativeModel({
+  model: "gemini-1.5-flash",
+  generationConfig: {
+    responseMimeType: "application/json",
+    responseSchema: schema_articleStatements,
+  },
+});
+
+export const generateArticleStatementsAction = action({
+  args: {
+    articleText: v.string(),
+  },
+  handler: async (ctx, { articleText }) => {
+
+    console.log(articleText);
+
+    const semiRandIdx_articleTone = modifierList_articleTone[seed_articleTone % modifierList_articleTone.length];
+    const articleTone = modifierList_articleTone[semiRandIdx_articleTone];
+
+    const prompt_articleStatements = promptTemplate_articleStatements.
+      replace("{__articleTone__}", articleTone);
+
+    const articleStatements = await geminiModel_articleStatements.generateContent([
+      {
+        text: prompt_articleStatements + "\n\n" + articleText,
+      },
+    ]);
+
+    const articleStatements_Text = await articleStatements.response.text();
+
+    const articleStatements_Json = JSON.parse(articleStatements_Text);
+
+    const keyPoints_Text = articleStatements_Json.map((statement) => statement.statement).join("\n");
+
+    console.log(keyPoints_Text);
+
+    return keyPoints_Text;
+  },
+});
+
+// ARTICLE TOPICS
+
+const schema_articleTopics = {
+  type: SchemaType.ARRAY,
+  items: {
+    type: SchemaType.OBJECT,
+    properties: {
+      topic: {
+        type: SchemaType.STRING,
+        description: "The topic.",
+        nullable: false,
+      },
+    },
+    required: ["topic"],
+  },
+};
+
+const AVAILABLE_TOPICS = [
+  "Technology",
+  "Business",
+  "Healthcare",
+  "Environment",
+  "Education",
+  "News",
+  "Politics",
+  "Science",
+  "Gaming",
+  "Sports",
+  "Entertainment",
+  "Movies",
+  "Music",
+  "Books",
+  "Food",
+  "Travel",
+  "Personal Finance",
+  "Relationships",
+  "Funny",
+  "Art",
+  "History",
+  "Programming",
+  "AskReddit",
+  "WorldNews",
+  "TodayILearned",
+  "DIY",
+  "LifeProTips",
+  "DataIsBeautiful",
+  "Space",
+  "Philosophy",
+  "Writing",
+  "CryptoCurrency",
+  "Animals",
+  "Photography",
+  "Anime",
+  "Comics",
+  "Fitness",
+  "Parenting",
+  "LegalAdvice",
+  "HomeImprovement"
+];
+
+const prompt_articleTopics = `Given the article text, identify 2-5 relevant topics from the following list of available topics: ${AVAILABLE_TOPICS.join(", ")}.
+Format the response as a JSON array of objects, where each object has a "topic" field containing one of the available topics.
+Only include topics that are strongly relevant to the article content.`;
+
+const geminiModel_articleTopics = genAI.getGenerativeModel({
+  model: "gemini-1.5-flash",
+  generationConfig: {
+    responseMimeType: "application/json",
+    responseSchema: schema_articleTopics,
+  },
+});
+
+export const generateArticleTopicsAction = action({
+  args: {
+    articleText: v.string(),
+  },
+  handler: async (ctx, { articleText }) => {
+    console.log(articleText);
+
+    const articleTopics = await geminiModel_articleTopics.generateContent([
+      {
+        text: prompt_articleTopics + "\n\n" + articleText,
+      },
+    ]);
+
+    const articleTopics_Text = await articleTopics.response.text();
+    const articleTopics_Json = JSON.parse(articleTopics_Text);
+    const topics_Text = articleTopics_Json.map((topic) => topic.topic).join(", ");
+
+    console.log(topics_Text);
+    return topics_Text;
+  },
+});
+
+
