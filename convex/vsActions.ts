@@ -369,7 +369,7 @@ Give 4-6 claims.
 Keep the sentences brief and be clear justifying the rationale behind each statement.
 Only use information from the article and don't include any extra information.
 It should sound like an individual claim which works towards building up the overall message in the article.
-Write in first person.
+Write in third person.
 Make it sound {__articleTone__}.
 `;
 
