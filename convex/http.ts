@@ -1,5 +1,5 @@
 import { httpRouter } from "convex/server";
-import { foo, createStoredFile, generateArticleStatements, generateArticleTopics, generateUploadUrl } from "./vsHttpActions";
+import { foo, createStoredFile, generateArticleStatements, generateArticleTopics, generateUploadUrl, generateArticle } from "./vsHttpActions";
 
 const http = httpRouter();
 
@@ -31,6 +31,12 @@ http.route({
   path: "/api/generateArticleTopics",
   method: "POST",
   handler: generateArticleTopics,
+});
+
+http.route({
+  path: "/api/generateArticle",
+  method: "POST",
+  handler: generateArticle,
 });
 
 export default http;

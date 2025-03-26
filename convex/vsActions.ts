@@ -523,4 +523,67 @@ export const generateArticleTopicsAction = action({
   },
 });
 
+// ARTICLE GENERATION
 
+const promptTemplate_articleGeneration = `
+Give an article of approximately 1400 characters on the topic given below.
+It should be realistic and easy to read.
+Pick a real world issues, use real world facts and references and take a position in the article.
+
+{__articleTopic__}
+
+`;
+
+const schema_articleGeneration = {
+  type: SchemaType.OBJECT,
+  properties: {
+    articleBody: {
+      type: SchemaType.STRING,
+      description: "The article body.",
+      nullable: false,
+    },
+    articleTitle: {
+      type: SchemaType.STRING,
+      description: "The article title.",
+      nullable: false,
+    },
+  },
+  required: ["articleBody", "articleTitle"],
+};
+
+const geminiModel_articleGeneration = genAI.getGenerativeModel({
+  model: "gemini-1.5-flash",
+  generationConfig: {
+    responseMimeType: "application/json",
+    responseSchema: schema_articleGeneration,
+  },
+});
+
+export const generateArticleAction = action({
+  args: {
+    topic: v.optional(v.string()),
+  },
+  handler: async (ctx, { topic }) => {
+
+    let articleTopic = topic;
+
+    if (!articleTopic) {
+      articleTopic = "Sports";
+    }
+
+    const prompt_articleGeneration = promptTemplate_articleGeneration.
+      replace("{__articleTopic__}", articleTopic);
+
+    const article = await geminiModel_articleGeneration.generateContent([
+      {
+        text: prompt_articleGeneration,
+      },
+    ]);
+
+    const article_Text = await article.response.text();
+
+    console.log(article_Text);
+
+    return article_Text;
+  },
+});
