@@ -23,7 +23,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 // GENERIC TEXTS
 
-const txtModel_texts = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+const txtModel_texts = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
 // KEY MAP DATA
 
@@ -51,7 +51,7 @@ const schema_keyMapData = {
 };
 
 const geminiModel_keyMapData = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash",
+  model: "gemini-2.5-flash",
   generationConfig: {
     responseMimeType: "application/json",
     responseSchema: schema_keyMapData,
@@ -318,7 +318,7 @@ const schema_fallacyExtraction = {
 };
 
 const geminiModel_fallacyExtraction = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash",
+  model: "gemini-2.5-flash",
   generationConfig: {
     responseMimeType: "application/json",
     responseSchema: schema_fallacyExtraction,
@@ -390,7 +390,7 @@ const schema_articleStatements = {
 };
 
 const geminiModel_articleStatements = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash",
+  model: "gemini-2.5-flash",
   generationConfig: {
     responseMimeType: "application/json",
     responseSchema: schema_articleStatements,
@@ -494,7 +494,7 @@ Format the response as a JSON array of objects, where each object has a "topic" 
 Only include topics that are strongly relevant to the article content.`;
 
 const geminiModel_articleTopics = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash",
+  model: "gemini-2.5-flash",
   generationConfig: {
     responseMimeType: "application/json",
     responseSchema: schema_articleTopics,
@@ -552,7 +552,7 @@ const schema_articleGeneration = {
 };
 
 const geminiModel_articleGeneration = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash",
+  model: "gemini-2.5-flash",
   generationConfig: {
     responseMimeType: "application/json",
     responseSchema: schema_articleGeneration,
