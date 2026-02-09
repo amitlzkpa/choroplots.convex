@@ -363,13 +363,16 @@ const seed_articleTone = 3;
 // ARTICLE STATEMENTS
 
 const promptTemplate_articleStatements = `
-Extract key points from the following article as individual claims.
-Each claim should contain information necessary to be complete by itself.
-Give 4-6 claims.
-Keep the sentences brief and be clear justifying the rationale behind each statement.
-Only use information from the article and don't include any extra information.
-It should sound like an individual claim which works towards building up the overall message in the article.
+Extract 4–6 clear claims from the article below.
+Each claim must stand on its own and reflect a key point from the article.
+Use short, simple sentences (1-2 sentences long) and plain language.
+Briefly state the reasoning within the claim itself.
+Do not add information that is not in the article.
 Write in third person.
+
+Example:
+If the article is about the effects of raising interest rates, a claim could be "Raising interest rates can reduce inflation because higher borrowing costs slow consumer spending."
+
 Make it sound {__articleTone__}.
 `;
 
@@ -526,9 +529,11 @@ export const generateArticleTopicsAction = action({
 // ARTICLE GENERATION
 
 const promptTemplate_articleGeneration = `
-Give an article of approximately 1400 characters on the topic given below.
-It should be realistic and easy to read.
-Pick a real world issues, use real world facts and references and take a position in the article.
+Write a ~600-character article on the topic below.
+Use simple, realistic language that is easy to read.
+Focus on a real-world issue and take a clear position.
+Support the position with widely known facts or examples.
+Keep the tone neutral and informative.
 
 {__articleTopic__}
 
