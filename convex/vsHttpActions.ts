@@ -107,7 +107,73 @@ export const generateArticleStatements = httpAction(async (ctx, request) => {
     return new Response("Only POST requests are supported", { status: 405 });
   }
 
-  return new Response(JSON.stringify({ abc: "def" }), {
+  const { articleText } = await request.json();
+
+  const keyPoints_Text = await ctx.runAction(api.vsActions.generateArticleStatementsAction, {
+    articleText,
+  });
+
+  return new Response(JSON.stringify({ keyPoints: keyPoints_Text }), {
+    status: 200,
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+});
+
+export const generateArticleTopics = httpAction(async (ctx, request) => {
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: 204,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
+    });
+  }
+
+  if (request.method !== "POST") {
+    return new Response("Only POST requests are supported", { status: 405 });
+  }
+
+  const { articleText } = await request.json();
+
+  const topics_Text = await ctx.runAction(api.vsActions.generateArticleTopicsAction, {
+    articleText,
+  });
+
+  return new Response(JSON.stringify({ topics: topics_Text }), {
+    status: 200,
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+});
+
+export const generateArticle = httpAction(async (ctx, request) => {
+  if (request.method === "OPTIONS") {
+    return new Response(null, {
+      status: 204,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
+    });
+  }
+
+  if (request.method !== "POST") {
+    return new Response("Only POST requests are supported", { status: 405 });
+  }
+
+  const { topic } = await request.json();
+
+  const article_Text = await ctx.runAction(api.vsActions.generateArticleAction, {
+    topic,
+  });
+
+  return new Response(JSON.stringify({ article: article_Text }), {
     status: 200,
     headers: {
       "Content-Type": "application/json"

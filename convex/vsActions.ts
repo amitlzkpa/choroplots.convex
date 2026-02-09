@@ -23,7 +23,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 // GENERIC TEXTS
 
-const txtModel_texts = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+const txtModel_texts = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
 // KEY MAP DATA
 
@@ -51,7 +51,7 @@ const schema_keyMapData = {
 };
 
 const geminiModel_keyMapData = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash",
+  model: "gemini-2.5-flash",
   generationConfig: {
     responseMimeType: "application/json",
     responseSchema: schema_keyMapData,
@@ -318,7 +318,7 @@ const schema_fallacyExtraction = {
 };
 
 const geminiModel_fallacyExtraction = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash",
+  model: "gemini-2.5-flash",
   generationConfig: {
     responseMimeType: "application/json",
     responseSchema: schema_fallacyExtraction,
@@ -353,5 +353,242 @@ export const fallacyExtractionAction = action({
     const fallacyExtractionData_Text = await extractFallaciesFromImage(fileArrayBuffer, fileMimeType);
 
     console.log("analysis done");
+  },
+});
+
+const modifierList_articleTone = ["simple", "neutral", "interesting", "alarming", "compelling", "sentimental", "wise"];
+
+const seed_articleTone = 3;
+
+// ARTICLE STATEMENTS
+
+const promptTemplate_articleStatements = `
+Extract 4–6 clear claims from the article below.
+Each claim must stand on its own and reflect a key point from the article.
+Use short, simple sentences (1-2 sentences long) and plain language.
+Briefly state the reasoning within the claim itself.
+Do not add information that is not in the article.
+Write in third person.
+
+Example:
+If the article is about the effects of raising interest rates, a claim could be "Raising interest rates can reduce inflation because higher borrowing costs slow consumer spending."
+
+Make it sound {__articleTone__}.
+`;
+
+const schema_articleStatements = {
+  description: "List of key points extracted from the article.",
+  type: SchemaType.ARRAY,
+  items: {
+    type: SchemaType.OBJECT,
+    properties: {
+      statement: {
+        type: SchemaType.STRING,
+        description: "The statement.",
+        nullable: false,
+      },
+    },
+    required: ["statement"],
+  },
+};
+
+const geminiModel_articleStatements = genAI.getGenerativeModel({
+  model: "gemini-2.5-flash",
+  generationConfig: {
+    responseMimeType: "application/json",
+    responseSchema: schema_articleStatements,
+  },
+});
+
+export const generateArticleStatementsAction = action({
+  args: {
+    articleText: v.string(),
+  },
+  handler: async (ctx, { articleText }) => {
+
+    console.log(articleText);
+
+    const semiRandIdx_articleTone = modifierList_articleTone[seed_articleTone % modifierList_articleTone.length];
+    const articleTone = modifierList_articleTone[semiRandIdx_articleTone];
+
+    const prompt_articleStatements = promptTemplate_articleStatements.
+      replace("{__articleTone__}", articleTone);
+
+    const articleStatements = await geminiModel_articleStatements.generateContent([
+      {
+        text: prompt_articleStatements + "\n\n" + articleText,
+      },
+    ]);
+
+    const articleStatements_Text = await articleStatements.response.text();
+
+    const articleStatements_Json = JSON.parse(articleStatements_Text);
+
+    const keyPoints_Text = articleStatements_Json.map((statement) => statement.statement).join("\n");
+
+    console.log(keyPoints_Text);
+
+    return keyPoints_Text;
+  },
+});
+
+// ARTICLE TOPICS
+
+const schema_articleTopics = {
+  type: SchemaType.ARRAY,
+  items: {
+    type: SchemaType.OBJECT,
+    properties: {
+      topic: {
+        type: SchemaType.STRING,
+        description: "The topic.",
+        nullable: false,
+      },
+    },
+    required: ["topic"],
+  },
+};
+
+const AVAILABLE_TOPICS = [
+  "Technology",
+  "Business",
+  "Healthcare",
+  "Environment",
+  "Education",
+  "News",
+  "Politics",
+  "Science",
+  "Gaming",
+  "Sports",
+  "Entertainment",
+  "Movies",
+  "Music",
+  "Books",
+  "Food",
+  "Travel",
+  "Personal Finance",
+  "Relationships",
+  "Funny",
+  "Art",
+  "History",
+  "Programming",
+  "AskReddit",
+  "WorldNews",
+  "TodayILearned",
+  "DIY",
+  "LifeProTips",
+  "DataIsBeautiful",
+  "Space",
+  "Philosophy",
+  "Writing",
+  "CryptoCurrency",
+  "Animals",
+  "Photography",
+  "Anime",
+  "Comics",
+  "Fitness",
+  "Parenting",
+  "LegalAdvice",
+  "HomeImprovement"
+];
+
+const prompt_articleTopics = `Given the article text, identify 2-5 relevant topics from the following list of available topics: ${AVAILABLE_TOPICS.join(", ")}.
+Format the response as a JSON array of objects, where each object has a "topic" field containing one of the available topics.
+Only include topics that are strongly relevant to the article content.`;
+
+const geminiModel_articleTopics = genAI.getGenerativeModel({
+  model: "gemini-2.5-flash",
+  generationConfig: {
+    responseMimeType: "application/json",
+    responseSchema: schema_articleTopics,
+  },
+});
+
+export const generateArticleTopicsAction = action({
+  args: {
+    articleText: v.string(),
+  },
+  handler: async (ctx, { articleText }) => {
+    console.log(articleText);
+
+    const articleTopics = await geminiModel_articleTopics.generateContent([
+      {
+        text: prompt_articleTopics + "\n\n" + articleText,
+      },
+    ]);
+
+    const articleTopics_Text = await articleTopics.response.text();
+    const articleTopics_Json = JSON.parse(articleTopics_Text);
+    const topics_Text = articleTopics_Json.map((topic) => topic.topic).join(", ");
+
+    console.log(topics_Text);
+    return topics_Text;
+  },
+});
+
+// ARTICLE GENERATION
+
+const promptTemplate_articleGeneration = `
+Write a ~600-character article on the topic below.
+Use simple, realistic language that is easy to read.
+Focus on a real-world issue and take a clear position.
+Support the position with widely known facts or examples.
+Keep the tone neutral and informative.
+
+{__articleTopic__}
+
+`;
+
+const schema_articleGeneration = {
+  type: SchemaType.OBJECT,
+  properties: {
+    articleBody: {
+      type: SchemaType.STRING,
+      description: "The article body.",
+      nullable: false,
+    },
+    articleTitle: {
+      type: SchemaType.STRING,
+      description: "The article title.",
+      nullable: false,
+    },
+  },
+  required: ["articleBody", "articleTitle"],
+};
+
+const geminiModel_articleGeneration = genAI.getGenerativeModel({
+  model: "gemini-2.5-flash",
+  generationConfig: {
+    responseMimeType: "application/json",
+    responseSchema: schema_articleGeneration,
+  },
+});
+
+export const generateArticleAction = action({
+  args: {
+    topic: v.optional(v.string()),
+  },
+  handler: async (ctx, { topic }) => {
+
+    let articleTopic = topic;
+
+    if (!articleTopic) {
+      articleTopic = "Sports";
+    }
+
+    const prompt_articleGeneration = promptTemplate_articleGeneration.
+      replace("{__articleTopic__}", articleTopic);
+
+    const article = await geminiModel_articleGeneration.generateContent([
+      {
+        text: prompt_articleGeneration,
+      },
+    ]);
+
+    const article_Text = await article.response.text();
+
+    console.log(article_Text);
+
+    return article_Text;
   },
 });
